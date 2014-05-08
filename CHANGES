@@ -1,6 +1,88 @@
 lm-sensors CHANGES file
 -----------------------
 
+3.3.5 "Happy Birthday Beddy" (2014-01-22)
+  libsensors: Improve documentation of two functions
+              Increase MAX_SENSORS_PER_TYPE to 33
+  init: Fix EnvironmentFile in service files
+        Drop syslog.target dependency from service files
+  sensors-conf-convert: Add a manual page
+  sensors-detect: Report built-in drivers as such
+                  Use modules.builtin instead of /sys/module
+                  Handle built-in modules properly
+                  Add detection of NCT6791D
+                  Add detection of NCT6681D, NCT6682D, and NCT6683D
+                  Add detection of F71868A
+                  Add detection of IT8603E
+                  Add two PCI IDs for new family 15h AMD processors
+                  Introduce automatic mode (--auto)
+                  Detect incorrect non-interactive runs
+                  Rework option handling
+                  Fix use of uninitialized value 'vendor_id' on ppc64
+                  Add detection of TMP451
+                  Add detection of SMSC EMC2104
+
+3.3.4 (2013-05-27)
+  sensors.conf.5: Mention "sensors -u" to get the raw feature names
+  sensors: Clarify what option -u is good for
+  fancontrol: Fix handling of absolute paths in config
+  pwmconfig: Print the initial PWM values
+             Raise the detection threshold to 3/4
+             Properly deal with multiple fan control
+  sensors-detect: Add detection of AMD family 16h power sensors
+                  Map IT8771E, IT8772E, IT8782F and IT8783F to it87
+                  Use /sys/module instead of /proc/modules where available
+                  Drop legacy sysconfig configuration file syntax
+                  Stay alive when /dev/port is missing
+                  Add detection of IT8752F
+                  Add detection of MCP98244
+                  Add detection of LM95234
+                  Add detection of TMP431/TMP432
+                  Update Nuvoton chip information and NCT6106D chip detection
+                  Drop unreliable DS1621/DS1631 detection
+
+3.3.3 "Happy Birthday Sophie" (2012-11-06)
+  documentation: Update fan-divisors, fan divisors are optional
+  libsensors: Fix warning about library path not in /etc/ld.so.conf
+  sensors: Fix libiconv linkage need detection in rare corner case
+           Add support for humidity output
+           Add long switches to manual page
+  sensors-detect: Don't choke on systems without PCI
+                  Avoid probing EDID addresses on graphics cards (#2386)
+                  Add detection of NCT6779D and NCT6102D/NCT6106D
+                  Add detection of SMSC LPC47N217 and SIO10N268
+                  Do not scan I2C adapters on graphics cards by default
+                  Fix parent class discovery when multiplexer is present
+
+3.3.2 (2012-03-14)
+  libsensors: Added support for new sysfs attributes
+              Change sysfs detection to survive upcoming kernel changes
+  sensord: Fix memory leaks revealed by valgrind
+           Minor performance improvements
+  sensors: Added support for new sysfs attributes
+           Display both instantaneous and average power if available.
+           Report thermal sensor type 1 as CPU diode
+           Align power values better
+           Fix power interval output
+  fancontrol: Support setup where one PWM output controls several fans
+              Output error messages to stderr
+  sensors-detect: Stop calling for PIIX5 SMBus testers
+                  Improve filtering of fake DMI data
+                  Print DMI system/product version if available
+                  Fix loading of the cpuid module
+                  Make LM73 detection less problematic
+                  Add detection of National Semiconductor LM96163
+                  Add detection of GMT G781
+                  Properly handle Super-I/O chips without logical device
+                  Add detection of National Semiconductor LM96080
+                  Add detection of ITE IT8771E
+                  Add detection of ITE IT8781F, IT8782F and IT8783F
+                  Add detection of ITE IT8510E/TE/G, IT8511E/TE/G,
+                         IT8513E/F/G, and IT8518E
+                  Add detection of ST Microelectronics STTS2002 and STTS3000
+                  Add detection of IDT TSE2002GB2, TS3000GB2, Microchip MCP9804,
+                         and Atmel AT30TS00
+
 3.3.1 (2011-07-21)
   isadump: Add support for word (16-bit) and long (32-bit) reads
   isaset: Add support for word (16-bit) and long (32-bit) writes

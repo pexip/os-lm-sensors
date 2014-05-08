@@ -1,6 +1,10 @@
+---
+ prog/detect/sensors-detect |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
 --- a/prog/detect/sensors-detect
 +++ b/prog/detect/sensors-detect
-@@ -6579,9 +6579,9 @@ sub main
+@@ -6889,9 +6889,9 @@
  	print "\n";
  
  	$superio_features = 0;
