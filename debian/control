@@ -7,7 +7,7 @@ XSBC-Pexip-Original-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ub
 XSBC-Original-Maintainer: Aurelien Jarno <aurel32@debian.org>
 Standards-Version: 3.9.2
 Homepage: http://www.lm-sensors.org
-XS-Pexip-Upstream: http://archive.ubuntu.com/ubuntu/ precise
+XS-Pexip-Upstream: http://ftp.debian.org/debian/ jessie
 
 Package: lm-sensors
 Architecture: any
