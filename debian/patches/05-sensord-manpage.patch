@@ -1,10 +1,10 @@
 ---
- prog/sensord/sensord.8 |   23 +----------------------
- 1 file changed, 1 insertion(+), 22 deletions(-)
+ prog/sensord/sensord.8 |   22 +---------------------
+ 1 file changed, 1 insertion(+), 21 deletions(-)
 
 --- a/prog/sensord/sensord.8
 +++ b/prog/sensord/sensord.8
-@@ -330,28 +330,7 @@
+@@ -330,27 +330,7 @@
  It is expected that all required sensor modules are loaded prior to
  this daemon being started. This can either be achieved with a system
  specific module loading scheme (e.g., listing the required modules
@@ -25,7 +25,6 @@
 -echo OK.
 -echo -n "Starting sensord: "
 -daemon sensord
--...
 -.fi
 -.PP
 -Ignore the platform-specific shell functions; the general idea

@@ -4,12 +4,12 @@
 
 --- a/prog/sensord/sense.c
 +++ b/prog/sensord/sense.c
-@@ -240,9 +240,14 @@
+@@ -239,9 +239,14 @@
  {
  	int ret = 0;
  
 -	sensorLog(LOG_DEBUG, "sensor read started");
-+	/* 
++	/*
 +	 * Debian mod: kill the debug messages, since they spam syslog every
 +	 * minute. -- JEH
 +	 */

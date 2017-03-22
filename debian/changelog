@@ -1,16 +1,83 @@
-lm-sensors (1:3.3.1-2ubuntu1pexip1) pexip; urgency=low
+lm-sensors (1:3.3.5-2pexip1) pexip; urgency=low
 
-  * Prepare Pexip packaging
+  * Migrate to Jessie
 
- -- John-Mark Bell <jmb@pexip.com>  Tue, 24 Dec 2013 23:32:21 +0000
+ -- John-Mark Bell <jmb@pexip.com>  Wed, 22 Mar 2017 15:46:39 +0000
 
-lm-sensors (1:3.3.1-2ubuntu1) precise; urgency=low
+lm-sensors (1:3.3.5-2) unstable; urgency=medium
 
-  * Merge from debian testing, remaining changes are:
-    - Add 100_recommend_using_upstart.patch: Recommend use of upstart rather
-      than init-script. 
+  * debian/lm-sensors.preinst: remove and rely now on lm-sensors.maintscript
+    to manage obsolete conffiles (closes: #567183).
+  * debian/sensord.maintscript: add /etc/logcheck/ignore.d.server/sensord
+    (closes: #747379).
 
- -- Chuck Short <zulcss@ubuntu.com>  Tue, 21 Feb 2012 08:53:20 -0500
+ -- Aurelien Jarno <aurel32@debian.org>  Thu, 08 May 2014 14:48:32 +0200
+
+lm-sensors (1:3.3.5-1) unstable; urgency=medium
+
+  * New upstream version:
+    - drop 01-sensors-conf-convert-manpage.patch (merged upstream).
+    - refresh other patches.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Mon, 28 Apr 2014 19:41:14 +0200
+
+lm-sensors (1:3.3.4-3) unstable; urgency=medium
+
+  * lm-sensors.service: allow calls to sensors to fail, in case no
+    sensors are available.
+  * Bumped Standards-version to 3.9.5 (no changes).
+  * Don't force xz compression when generating .deb now that it is the
+    default.
+  * Don't pass start and stop actions to dh_installinit. The LSB headers
+    of the init scripts already contain all necesssary information
+    (closes: #722074).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sun, 06 Apr 2014 20:06:52 +0200
+
+lm-sensors (1:3.3.4-2) unstable; urgency=low
+
+  * debian/fancontrol.init: pass the config file location as argument of
+    the fancontrol daemon (closes: #720213).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Tue, 27 Aug 2013 18:36:05 +0200
+
+lm-sensors (1:3.3.4-1) unstable; urgency=low
+
+  * New upstream version.
+  * Use dh-systemd to get proper systemd related maintainer scripts,
+    based on a patch from Michael Stapelberg (closes: #714190).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sat, 29 Jun 2013 16:37:48 +0200
+
+lm-sensors (1:3.3.3-1) unstable; urgency=low
+
+  * New upstream version:
+    - Don't choke on systems without PCI (closes: #695889).
+  * Bumped Standards-version to 3.9.4.0 (no changes).
+  * Compress .deb with xz.
+  * Add a watch file (closes: #694848).
+  * Fix RRD file creation with loadavg (closes: #614965).
+  * Backport pwmconfig changes from upstream to fix multiple fan
+    control (closes: #695895).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Mon, 06 May 2013 23:37:35 +0200
+
+lm-sensors (1:3.3.2-2) unstable; urgency=low
+
+  * Tell user to restart kmod instead of modules-init-tools (closes: 
+    #670213).
+  * Install a systemd service file for lm-sensors (closes: #674778).
+  * Correctly pass CPPFLAGS and LDFLAGS to build with hardening support.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sun, 03 Jun 2012 16:21:26 +0200
+
+lm-sensors (1:3.3.2-1) unstable; urgency=low
+
+  * New upstream version:
+  * Bumped Standards-version to 3.9.3 (no changes).
+  * Drop useless dependency on makedev | udev (closes: #666510).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Mon, 23 Apr 2012 19:00:39 +0200
 
 lm-sensors (1:3.3.1-2) unstable; urgency=low
 

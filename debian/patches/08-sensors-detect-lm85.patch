@@ -4,7 +4,7 @@
 
 --- a/prog/detect/sensors-detect
 +++ b/prog/detect/sensors-detect
-@@ -578,7 +578,7 @@
+@@ -603,7 +603,7 @@
  		i2c_detect => sub { adt7467_detect(@_, 2); },
  	}, {
  		name => "Analog Devices ADT7466",

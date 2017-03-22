@@ -1,11 +1,10 @@
 Source: lm-sensors
 Section: utils
 Priority: extra
-Build-Depends: debhelper (>= 8.1.3), bison, flex, librrd2-dev
+Build-Depends: debhelper (>= 8.1.3), bison, flex, librrd2-dev, dh-systemd (>= 1.3)
 Maintainer: Pexip AS <packaging@pexip.com>
-XSBC-Pexip-Original-Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-XSBC-Original-Maintainer: Aurelien Jarno <aurel32@debian.org>
-Standards-Version: 3.9.2
+XSBC-Pexip-Original-Maintainer: Aurelien Jarno <aurel32@debian.org>
+Standards-Version: 3.9.5
 Homepage: http://www.lm-sensors.org
 XS-Pexip-Upstream: http://ftp.debian.org/debian/ jessie
 
@@ -26,7 +25,7 @@ Package: libsensors4
 Architecture: any
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
-Depends: makedev (>= 2.3.1-45) | udev, ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Priority: optional
 Suggests: lm-sensors
 Section: libs

@@ -24,6 +24,7 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/vfs.h>
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
@@ -40,6 +41,7 @@
 /****************************************************************************/
 
 #define ATTR_MAX	128
+#define SYSFS_MAGIC	0x62656572
 
 /*
  * Read an attribute from sysfs
@@ -138,7 +140,7 @@ char sensors_sysfs_mount[NAME_MAX];
 
 #define MAX_MAIN_SENSOR_TYPES	(SENSORS_FEATURE_MAX_MAIN - SENSORS_FEATURE_IN)
 #define MAX_OTHER_SENSOR_TYPES	(SENSORS_FEATURE_MAX_OTHER - SENSORS_FEATURE_VID)
-#define MAX_SENSORS_PER_TYPE	24
+#define MAX_SENSORS_PER_TYPE	33
 /* max_subfeatures is now computed dynamically */
 #define FEATURE_SIZE		(max_subfeatures * 2)
 #define FEATURE_TYPE_SIZE	(MAX_SENSORS_PER_TYPE * FEATURE_SIZE)
@@ -233,6 +235,8 @@ static const struct subfeature_type_match temp_matches[] = {
 	{ "lcrit", SENSORS_SUBFEATURE_TEMP_LCRIT },
 	{ "emergency", SENSORS_SUBFEATURE_TEMP_EMERGENCY },
 	{ "emergency_hyst", SENSORS_SUBFEATURE_TEMP_EMERGENCY_HYST },
+	{ "lowest", SENSORS_SUBFEATURE_TEMP_LOWEST },
+	{ "highest", SENSORS_SUBFEATURE_TEMP_HIGHEST },
 	{ "alarm", SENSORS_SUBFEATURE_TEMP_ALARM },
 	{ "min_alarm", SENSORS_SUBFEATURE_TEMP_MIN_ALARM },
 	{ "max_alarm", SENSORS_SUBFEATURE_TEMP_MAX_ALARM },
@@ -252,6 +256,9 @@ static const struct subfeature_type_match in_matches[] = {
 	{ "max", SENSORS_SUBFEATURE_IN_MAX },
 	{ "lcrit", SENSORS_SUBFEATURE_IN_LCRIT },
 	{ "crit", SENSORS_SUBFEATURE_IN_CRIT },
+	{ "average", SENSORS_SUBFEATURE_IN_AVERAGE },
+	{ "lowest", SENSORS_SUBFEATURE_IN_LOWEST },
+	{ "highest", SENSORS_SUBFEATURE_IN_HIGHEST },
 	{ "alarm", SENSORS_SUBFEATURE_IN_ALARM },
 	{ "min_alarm", SENSORS_SUBFEATURE_IN_MIN_ALARM },
 	{ "max_alarm", SENSORS_SUBFEATURE_IN_MAX_ALARM },
@@ -264,9 +271,12 @@ static const struct subfeature_type_match in_matches[] = {
 static const struct subfeature_type_match fan_matches[] = {
 	{ "input", SENSORS_SUBFEATURE_FAN_INPUT },
 	{ "min", SENSORS_SUBFEATURE_FAN_MIN },
+	{ "max", SENSORS_SUBFEATURE_FAN_MAX },
 	{ "div", SENSORS_SUBFEATURE_FAN_DIV },
 	{ "pulses", SENSORS_SUBFEATURE_FAN_PULSES },
 	{ "alarm", SENSORS_SUBFEATURE_FAN_ALARM },
+	{ "min_alarm", SENSORS_SUBFEATURE_FAN_MIN_ALARM },
+	{ "max_alarm", SENSORS_SUBFEATURE_FAN_MAX_ALARM },
 	{ "fault", SENSORS_SUBFEATURE_FAN_FAULT },
 	{ "beep", SENSORS_SUBFEATURE_FAN_BEEP },
 	{ NULL, 0 }
@@ -302,6 +312,9 @@ static const struct subfeature_type_match curr_matches[] = {
 	{ "max", SENSORS_SUBFEATURE_CURR_MAX },
 	{ "lcrit", SENSORS_SUBFEATURE_CURR_LCRIT },
 	{ "crit", SENSORS_SUBFEATURE_CURR_CRIT },
+	{ "average", SENSORS_SUBFEATURE_CURR_AVERAGE },
+	{ "lowest", SENSORS_SUBFEATURE_CURR_LOWEST },
+	{ "highest", SENSORS_SUBFEATURE_CURR_HIGHEST },
 	{ "alarm", SENSORS_SUBFEATURE_CURR_ALARM },
 	{ "min_alarm", SENSORS_SUBFEATURE_CURR_MIN_ALARM },
 	{ "max_alarm", SENSORS_SUBFEATURE_CURR_MAX_ALARM },
@@ -585,11 +598,11 @@ exit_free:
 /* returns !0 if sysfs filesystem was found, 0 otherwise */
 int sensors_init_sysfs(void)
 {
-	struct stat statbuf;
+	struct statfs statfsbuf;
 
 	snprintf(sensors_sysfs_mount, NAME_MAX, "%s", "/sys");
-	if (stat(sensors_sysfs_mount, &statbuf) < 0
-	 || statbuf.st_nlink <= 2)	/* Empty directory */
+	if (statfs(sensors_sysfs_mount, &statfsbuf) < 0
+	 || statfsbuf.f_type != SYSFS_MAGIC)
 		return 0;
 
 	return 1;

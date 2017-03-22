@@ -25,9 +25,9 @@ test -x $DAEMON || exit 0
 case "$1" in
   start)
   	if [ -f $CONF ] ; then
-		if $DAEMON --check 1>/dev/null 2>/dev/null ; then
+		if $DAEMON --check $CONF 1>/dev/null 2>/dev/null ; then
 			log_daemon_msg "Starting $DESC" "$NAME"
-			start-stop-daemon --start --quiet --background --pidfile $PIDFILE --startas $DAEMON
+			start-stop-daemon --start --quiet --background --pidfile $PIDFILE --startas $DAEMON $CONF
 			log_end_msg $?
 		else
 			log_failure_msg "Not starting fancontrol, broken configuration file; please re-run pwmconfig."
@@ -40,7 +40,7 @@ case "$1" in
 	;;
   stop)
 	log_daemon_msg "Stopping $DESC" "$NAME"
-	start-stop-daemon --stop --quiet --pidfile $PIDFILE --oknodo --startas $DAEMON
+	start-stop-daemon --stop --quiet --pidfile $PIDFILE --oknodo --startas $DAEMON $CONF
 	rm -f $PIDFILE
 	log_end_msg $?
 	;;
@@ -50,12 +50,12 @@ case "$1" in
 	$0 start
 	;;
   force-reload)
-	if start-stop-daemon --stop --test --quiet --pidfile $PIDFILE --startas $DAEMON ; then
+	if start-stop-daemon --stop --test --quiet --pidfile $PIDFILE --startas $DAEMON $CONF ; then
 		$0 restart
 	fi
 	;;
   status)
-	status_of_proc $DAEMON $NAME && exit 0 || exit $?
+	status_of_proc $DAEMON $NAME $CONF && exit 0 || exit $?
 	;;
   *)
 	log_success_msg "Usage: /etc/init.d/fancontrol {start|stop|restart|force-reload|status}"

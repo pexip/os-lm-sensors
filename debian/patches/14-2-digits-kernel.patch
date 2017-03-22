@@ -4,13 +4,13 @@
 
 --- a/prog/detect/sensors-detect
 +++ b/prog/detect/sensors-detect
-@@ -2477,8 +2477,8 @@
- 
+@@ -2679,8 +2679,8 @@
  sub initialize_kernel_version
  {
--	`uname -r` =~ /(\d+)\.(\d+)\.(\d+)(.*)/;
+ 	chomp($kernel_version = `uname -r`);
+-	$kernel_version =~ /(\d+)\.(\d+)\.(\d+)(.*)/;
 -	@kernel_version = ($1, $2, $3, $4);
-+	`uname -r` =~ /(\d+)\.(\d+)(?:\.(\d+))?(.*)/;
++	$kernel_version =~ /(\d+)\.(\d+)(?:\.(\d+))?(.*)/;
 +	@kernel_version = ($1, $2, $3 || 0, $4);
  	chomp($kernel_arch = `uname -m`);
  

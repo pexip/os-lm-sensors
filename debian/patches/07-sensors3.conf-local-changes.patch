@@ -10,8 +10,8 @@
  # http://www.lm-sensors.org/wiki/Configurations
 +#
 +# It is recommended not to modify this file, but to drop your local
-+# changes in /etc/sensors.d/. File with names that start with a dot 
++# changes in /etc/sensors.d/. File with names that start with a dot
 +# are ignored.
  
- chip "lm78-*" "lm79-*" "lm80-*"
+ chip "lm78-*" "lm79-*" "lm80-*" "lm96080-*"
  
