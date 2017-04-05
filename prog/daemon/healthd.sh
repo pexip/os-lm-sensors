@@ -13,19 +13,21 @@
 #		   This is just an example.  It works, but hopefully we can
 #		   get something better written. :')
 #
-# Requirements -- grep, mail, sensors, bash
-#		  (You may need to alter the PATH, but probably not.)
+# Requirements -- mail, sensors, bash, sleep
 #
 # Written & Copyrighten by Philip Edelbrock, 1999.
 #
-# Version: 1.0.0
+# Version: 1.1
 #
-
-PATH="/bin:/usr/bin:/usr/local/bin:${PATH}"
 
 ADMIN_EMAIL="root@localhost"
 
-if [ -n "`sensors | grep ALARM`" ]
+# Try loading the built-in sleep implementation to avoid spawning a
+# new process every 15 seconds
+enable -f sleep.so sleep >/dev/null 2>&1
+
+sensors_state=$(sensors)
+if [[ "$sensors_state" =~ 'ALARM' ]]
 then
         echo "Pending Alarms on start up!  Exiting!"
         exit
@@ -34,9 +36,10 @@ fi
 while true
 do
  sleep 15
- if [ -n "`sensors | grep ALARM`" ]
+ sensors_state=$(sensors)
+ if [[ "$sensors_state" =~ 'ALARM' ]]
  then
-        sensors | mail -s "**** Hardware Health Warning ****"  $ADMIN_EMAIL
+        echo "$sensors_state" | mail -s '**** Hardware Health Warning ****' $ADMIN_EMAIL
         sleep 600
  fi
 done
