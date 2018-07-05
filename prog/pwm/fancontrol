@@ -3,7 +3,7 @@
 # Simple script implementing a temperature dependent fan speed control
 # Supported Linux kernel versions: 2.6.5 and later
 #
-# Version 0.70
+# Version 0.71
 #
 # Usage: fancontrol [CONFIGFILE]
 #
@@ -19,7 +19,7 @@
 #
 #
 #    Copyright 2003 Marius Reiner <marius.reiner@hdev.de>
-#    Copyright (C) 2007-2009 Jean Delvare <khali@linux-fr.org>
+#    Copyright (C) 2007-2014 Jean Delvare <jdelvare@suse.de>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -206,6 +206,65 @@ function ValidateDevices()
 	return $outdated
 }
 
+function FixupDeviceFiles
+{
+	local DEVICE="$1"
+	local fcvcount pwmo tsen fan
+
+	let fcvcount=0
+	while (( $fcvcount < ${#AFCPWM[@]} )) # go through all pwm outputs
+	do
+		pwmo=${AFCPWM[$fcvcount]}
+		AFCPWM[$fcvcount]=${pwmo//$DEVICE\/device/$DEVICE}
+		if [ "${AFCPWM[$fcvcount]}" != "$pwmo" ]
+		then
+			echo "Adjusing $pwmo -> ${AFCPWM[$fcvcount]}"
+		fi
+		let fcvcount=$fcvcount+1
+	done
+
+	let fcvcount=0
+	while (( $fcvcount < ${#AFCTEMP[@]} )) # go through all temp inputs
+	do
+		tsen=${AFCTEMP[$fcvcount]}
+		AFCTEMP[$fcvcount]=${tsen//$DEVICE\/device/$DEVICE}
+		if [ "${AFCTEMP[$fcvcount]}" != "$tsen" ]
+		then
+			echo "Adjusing $tsen -> ${AFCTEMP[$fcvcount]}"
+		fi
+		let fcvcount=$fcvcount+1
+	done
+
+	let fcvcount=0
+	while (( $fcvcount < ${#AFCFAN[@]} )) # go through all fan inputs
+	do
+		fan=${AFCFAN[$fcvcount]}
+		AFCFAN[$fcvcount]=${fan//$DEVICE\/device/$DEVICE}
+		if [ "${AFCFAN[$fcvcount]}" != "$fan" ]
+		then
+			echo "Adjusing $fan -> ${AFCFAN[$fcvcount]}"
+		fi
+		let fcvcount=$fcvcount+1
+	done
+}
+
+# Some drivers moved their attributes from hard device to class device
+function FixupFiles
+{
+	local DEVPATH="$1"
+	local entry device
+
+	for entry in $DEVPATH
+	do
+		device=`echo "$entry" | sed -e 's/=[^=]*$//'`
+
+		if [ -e "$device/name" ]
+		then
+			FixupDeviceFiles "$device"
+		fi
+	done
+}
+
 # Check that all referenced sysfs files exist
 function CheckFiles
 {
@@ -305,6 +364,10 @@ if ! ValidateDevices "$DEVPATH" "$DEVNAME"
 then
 	echo "Configuration appears to be outdated, please run pwmconfig again" >&2
 	exit 1
+fi
+if [ "$DIR" = "/sys/class/hwmon" ]
+then
+	FixupFiles "$DEVPATH"
 fi
 CheckFiles || exit 1
 
@@ -450,7 +513,7 @@ function UpdateFanSpeeds
 				fi
 			done
 		else
-			fanval=1  # set it to a non zero value, so the rest of the script still works
+			min_fanval=1  # set it to a non zero value, so the rest of the script still works
 		fi
 
 		# debug info
@@ -483,7 +546,7 @@ function UpdateFanSpeeds
 		  	echo $minsa > $pwmo
 			# Sleep while still handling signals
 			sleep 1 &
-			wait $!
+			wait
 		  fi
 		fi
 		echo $pwmval > $pwmo # write new value to pwm output
@@ -522,5 +585,5 @@ do
 	UpdateFanSpeeds
 	# Sleep while still handling signals
 	sleep $INTERVAL &
-	wait $!
+	wait
 done
