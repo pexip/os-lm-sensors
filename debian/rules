@@ -102,9 +102,9 @@ binary-indep: build install
 	dh_testroot
 	dh_installchangelogs -i CHANGES
 	dh_installdocs -i -XCVS
-#	dh_systemd_enable -pfancontrol
+	dh_systemd_enable -pfancontrol
 	dh_installinit -pfancontrol --restart-after-upgrade
-#	dh_systemd_start -pfancontrol
+	dh_systemd_start -pfancontrol
 	dh_installman -i
 	dh_link -i
 	dh_compress -i
@@ -121,8 +121,8 @@ binary-arch: build install
 	dh_installchangelogs -s CHANGES
 	dh_installdocs -s -XCVS
 	dh_installexamples -s -XCVS -XModule.mk
-#	dh_systemd_enable -plm-sensors
-#	dh_systemd_start -plm-sensors
+	dh_systemd_enable -plm-sensors
+	dh_systemd_start -plm-sensors
 	dh_installinit -plm-sensors --no-start
 	dh_installinit -psensord
 	dh_installlogcheck -s
