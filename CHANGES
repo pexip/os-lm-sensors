@@ -1,6 +1,46 @@
 lm-sensors CHANGES file
 -----------------------
 
+3.4.0 (2015-06-25)
+  documentation: Update the note about libsensors license
+  sensors.conf.5: Enhance the hysteresis documentation
+  sensors.conf.default: Add support for NCT6779 and NCT6791
+  libsensors: Get rid of arbitrary limit on per-type sensor count
+              Add support for temperature min and critical min hysteresis
+              Fix sparse warnings
+  sensors: Add support for temperature min and critical min hysteresis
+  fancontrol: Deal with moving hwmon attributes
+              Fix shell error when FCFANS is not set
+              Reduce memory consumption (#2391)
+  healthd: Avoid using external commands
+  sensors-detect: Add detection of ADC128D818
+                  Add detection of AMD family 16h Kabini and Mullins
+                  Add detection of ITE IT8620E and IT8623E
+                  Add detection of TMP441, TMP442, LM95233, LM95234,
+                  and LM95235
+                  Add detection of NCT7802Y
+                  Print kernel version and processor information
+                  Add detection of NCT6792D 
+                  Add reference to nct6683 driver
+                  Show that NCT6102D/6104D/6106D are supported by nct6775 driver
+                  Show NCT5573D as compatible to NCT6776F with same chip ID
+                  Document support for EMC1402, EMC1404, and EMC1424
+                  Detect new revisions of EMC14xx
+                  Add detection of EMC1422
+                  Document driver support for TMP431 and TMP432
+                  Add detection of TMP400 and TMP435
+                  Add detection of IT8786E
+                  Add detection of IT8780F
+                  Add detection of IT8731F and IT8732F
+                  Add detection of Intel 5500/5520/X58
+                  Loosen detection rules for TS3000/TSE2002
+                  Add detection of TSE2004 and TS3001
+                  Document driver support for NCT7802Y
+                  Add detection of NCT7904D
+                  Add detection of IT8790E
+                  Fix graphics cards detection (#2386, #2392)
+                  Skip more addresses on graphics card I2C bus (#2392)
+
 3.3.5 "Happy Birthday Beddy" (2014-01-22)
   libsensors: Improve documentation of two functions
               Increase MAX_SENSORS_PER_TYPE to 33
