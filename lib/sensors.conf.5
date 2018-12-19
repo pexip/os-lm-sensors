@@ -86,9 +86,10 @@ The name of the bus is either
 .IR isa ,
 .IR pci ,
 .IR virtual ,
-.I spi-*
-or
+.I spi-*,
 .I i2c-N
+or
+.I mdio
 with
 .I N
 being a bus number as bound with a
@@ -566,7 +567,4 @@ libsensors(3)
 
 .SH AUTHOR
 Frodo Looijaard and the lm_sensors group
-http://www.lm-sensors.org/
-
-
-
+https://hwmon.wiki.kernel.org/lm_sensors

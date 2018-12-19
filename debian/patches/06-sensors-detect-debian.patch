@@ -1,6 +1,6 @@
 ---
- prog/detect/sensors-detect |  104 ++++++++++++---------------------------------
- 1 file changed, 30 insertions(+), 74 deletions(-)
+ prog/detect/sensors-detect |  101 +++++++++++++--------------------------------
+ 1 file changed, 30 insertions(+), 71 deletions(-)
 
 --- a/prog/detect/sensors-detect
 +++ b/prog/detect/sensors-detect
@@ -10,7 +10,7 @@
  #
  #    sensors-detect - Detect hardware monitoring chips
  #    Copyright (C) 1998 - 2002  Frodo Looijaard <frodol@dds.nl>
-@@ -6770,83 +6770,39 @@
+@@ -7344,80 +7344,39 @@
  		}
  	}
  
@@ -18,21 +18,7 @@
 -	printf "Do you want to \%s /etc/sysconfig/lm_sensors? (\%s): ",
 -	       (-e '/etc/sysconfig/lm_sensors' ? 'overwrite' : 'generate'),
 -	       ($have_sysconfig ? 'YES/no' : 'yes/NO');
-+	print "To load everything that is needed, add this to /etc/modules:\n";
-+	print "#----cut here----\n";
-+	if (@{$bus_modules}) {
-+		print "# Adapter drivers\n";
-+		print "$_\n" foreach (@{$bus_modules});
-+	}
-+	print "# Chip drivers\n";
-+	print "$_\n" foreach (@{$hwmon_modules});
-+	print "#----cut here----\n";
-+
-+	print "If you have some drivers built into your kernel, the list above will\n".
-+	      "contain too many modules. Skip the appropriate ones!\n";
-+
-+	print "\nDo you want to add these lines automatically to /etc/modules? (yes/NO)";
- 	$_ = read_answer();
+-	$_ = read_answer();
 -	if (($have_sysconfig and not m/^\s*n/i) or m/^\s*y/i) {
 -		unless ($have_sysconfig) {
 -			mkdir('/etc/sysconfig', 0777)
@@ -55,22 +41,28 @@
 -		print SYSCONFIG "HWMON_MODULES=\"", join(" ", @{$hwmon_modules}), "\"\n";
 -		close(SYSCONFIG);
 -
--		if (-x "/bin/systemctl" && -d "/lib/systemd/system" &&
--		    ! -f "/lib/systemd/system/lm_sensors.service") {
--			print "Copy prog/init/lm_sensors.service to /lib/systemd/system\n".
--			      "and run 'systemctl enable lm_sensors.service'\n".
--			      "for initialization at boot time.\n";
+-		if ($systemd_systemctl && $systemd_system_dir) {
+-			if (-f "$systemd_system_dir/lm_sensors.service") {
+-				system($systemd_systemctl, "enable", "lm_sensors.service");
+-				system($systemd_systemctl, "start", "lm_sensors.service");
+-				# All done, don't check for /etc/init.d/lm_sensors
+-			} else {
+-				print "Copy prog/init/lm_sensors.service to $systemd_system_dir\n".
+-				      "and run 'systemctl enable lm_sensors.service'\n".
+-				      "for initialization at boot time.\n";
+-			}
 -			return;
 -		}
--
--		if (-x "/bin/systemctl" &&
--		    -f "/lib/systemd/system/lm_sensors.service") {
--			system("/bin/systemctl", "enable", "lm_sensors.service");
--			system("/bin/systemctl", "start", "lm_sensors.service");
--			# All done, don't check for /etc/init.d/lm_sensors
--			return;
--		}
--
++	print "To load everything that is needed, add this to /etc/modules:\n";
++	print "#----cut here----\n";
++	if (@{$bus_modules}) {
++		print "# Adapter drivers\n";
++		print "$_\n" foreach (@{$bus_modules});
++	}
++	print "# Chip drivers\n";
++	print "$_\n" foreach (@{$hwmon_modules});
++	print "#----cut here----\n";
+ 
 -		print "Copy prog/init/lm_sensors.init to /etc/init.d/lm_sensors\n".
 -		      "for initialization at boot time.\n"
 -			unless -f "/etc/init.d/lm_sensors";
@@ -90,6 +82,11 @@
 -		print "To load everything that is needed, add this to one of the system\n".
 -		      "initialization scripts (e.g. /etc/rc.d/rc.local):\n\n";
 -		print "#----cut here----\n";
++	print "If you have some drivers built into your kernel, the list above will\n".
++	      "contain too many modules. Skip the appropriate ones!\n";
++
++	print "\nDo you want to add these lines automatically to /etc/modules? (yes/NO)";
++	$_ = read_answer();
 +	if (m/^\s*[Yy]/) {
 +		open(MODULES, ">>/etc/modules")
 +			or die "Sorry, can't create /etc/modules ($!)?!?";
