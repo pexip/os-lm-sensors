@@ -6,7 +6,7 @@ Maintainer: Pexip AS <packaging@pexip.com>
 XSBC-Pexip-Original-Maintainer: Aurelien Jarno <aurel32@debian.org>
 Standards-Version: 3.9.8
 Homepage: http://www.lm-sensors.org
-XS-Pexip-Upstream: http://ftp.debian.org/debian/ stretch
+XS-Pexip-Upstream: http://ftp.debian.org/debian/ buster
 
 Package: lm-sensors
 Architecture: linux-any
