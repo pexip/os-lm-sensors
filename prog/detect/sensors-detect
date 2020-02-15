@@ -41,7 +41,7 @@ use constant NO_CACHE => 1;
 use vars qw(@pci_adapters @chip_ids @ipmi_ifs @non_hwmon_chip_ids
 	    $i2c_addresses_to_scan $revision @i2c_byte_cache %opt);
 
-$revision = '$Revision: 6284 $ ($Date: 2015-05-31 14:00:33 +0200 (dim. 31 mai 2015) $)';
+$revision = '$Revision$ ($Date$)';
 $revision =~ s/\$\w+: (.*?) \$/$1/g;
 $revision =~ s/ \([^()]*\)//;
 
@@ -158,6 +158,21 @@ $revision =~ s/ \([^()]*\)//;
 		driver	=> "i2c-i801",
 	}, {
 		vendid	=> 0x8086,
+		devid	=> 0x1D70,
+		procid	=> "Intel Patsburg (PCH) IDF",
+		driver	=> "i2c-i801",
+	}, {
+		vendid	=> 0x8086,
+		devid	=> 0x1D71,
+		procid	=> "Intel Patsburg (PCH) IDF",
+		driver	=> "i2c-i801",
+	}, {
+		vendid	=> 0x8086,
+		devid	=> 0x1D72,
+		procid	=> "Intel Patsburg (PCH) IDF",
+		driver	=> "i2c-i801",
+	}, {
+		vendid	=> 0x8086,
 		devid	=> 0x2330,
 		procid	=> "Intel DH89xxCC (PCH)",
 		driver	=> "i2c-i801",
@@ -170,6 +185,111 @@ $revision =~ s/ \([^()]*\)//;
 		vendid	=> 0x8086,
 		devid	=> 0x8C22,
 		procid	=> "Intel Lynx Point (PCH)",
+		driver	=> "i2c-i801",
+	}, {
+		vendid	=> 0x8086,
+		devid	=> 0x9C22,
+		procid	=> "Intel Lynx Point-LP (PCH)",
+		driver	=> "i2c-i801",
+	}, {
+		vendid	=> 0x8086,
+		devid	=> 0x1F3C,
+		procid	=> "Avoton (SOC)",
+		driver	=> "i2c-i801",
+	}, {
+		vendid	=> 0x8086,
+		devid	=> 0x8D22,
+		procid	=> "Wellsburg (PCH)",
+		driver	=> "i2c-i801",
+	}, {
+		vendid	=> 0x8086,
+		devid	=> 0x8D7D,
+		procid	=> "Wellsburg (PCH) MS",
+		driver	=> "i2c-i801",
+	}, {
+		vendid	=> 0x8086,
+		devid	=> 0x8D7E,
+		procid	=> "Wellsburg (PCH) MS",
+		driver	=> "i2c-i801",
+	}, {
+		vendid	=> 0x8086,
+		devid	=> 0x8D7F,
+		procid	=> "Wellsburg (PCH) MS",
+		driver	=> "i2c-i801",
+	}, {
+		vendid	=> 0x8086,
+		devid	=> 0x23B0,
+		procid	=> "Coleto Creek (PCH)",
+		driver	=> "i2c-i801",
+	}, {
+		vendid	=> 0x8086,
+		devid	=> 0x8CA2,
+		procid	=> "Wildcat Point (PCH)",
+		driver	=> "i2c-i801",
+	}, {
+		vendid	=> 0x8086,
+		devid	=> 0x9CA2,
+		procid	=> "Wildcat Point-LP (PCH)",
+		driver	=> "i2c-i801",
+	}, {
+		vendid	=> 0x8086,
+		devid	=> 0x0F12,
+		procid	=> "BayTrail (SOC)",
+		driver	=> "i2c-i801",
+	}, {
+		vendid	=> 0x8086,
+		devid	=> 0xA123,
+		procid	=> "Sunrise Point-H (PCH)",
+		driver	=> "i2c-i801",
+	}, {
+		vendid	=> 0x8086,
+		devid	=> 0x9D23,
+		procid	=> "Sunrise Point-LP (PCH)",
+		driver	=> "i2c-i801",
+	}, {
+		vendid	=> 0x8086,
+		devid	=> 0x19DF,
+		procid	=> "DNV (SOC)",
+		driver	=> "i2c-i801",
+	}, {
+		vendid	=> 0x8086,
+		devid	=> 0x5AD4,
+		procid	=> "Broxton (SOC)",
+		driver	=> "i2c-i801",
+	}, {
+		vendid	=> 0x8086,
+		devid	=> 0xA1A3,
+		procid	=> "Lewisburg (PCH)",
+		driver	=> "i2c-i801",
+	}, {
+		vendid	=> 0x8086,
+		devid	=> 0xA223,
+		procid	=> "Lewisburg Supersku (PCH)",
+		driver	=> "i2c-i801",
+	}, {
+		vendid	=> 0x8086,
+		devid	=> 0xA2A3,
+		procid	=> "Kaby Lake (PCH)",
+		driver	=> "i2c-i801",
+	}, {
+		vendid	=> 0x8086,
+		devid	=> 0x31D4,
+		procid	=> "Gemini Lake (SOC)",
+		driver	=> "i2c-i801",
+	}, {
+		vendid	=> 0x8086,
+		devid	=> 0xA323,
+		procid	=> "Cannon Lake-H (PCH)",
+		driver	=> "i2c-i801",
+	}, {
+		vendid	=> 0x8086,
+		devid	=> 0x9DA3,
+		procid	=> "Cannon Lake-LP (PCH)",
+		driver	=> "i2c-i801",
+	}, {
+		vendid	=> 0x8086,
+		devid	=> 0x18DF,
+		procid	=> "Cedar Fork (PCH)",
 		driver	=> "i2c-i801",
 	}, {
 		vendid	=> 0x8086,
@@ -426,6 +546,11 @@ $revision =~ s/ \([^()]*\)//;
 		vendid	=> 0x1022,
 		devid	=> 0x780b,
 		procid	=> "AMD Hudson-2 SMBus",
+		driver	=> "i2c-piix4",
+	}, {
+		vendid	=> 0x1022,
+		devid	=> 0x790b,
+		procid	=> "AMD KERNCZ SMBus",
 		driver	=> "i2c-piix4",
 	}, {
 		vendid	=> 0x100B,
@@ -1480,6 +1605,11 @@ use vars qw(@i2c_adapter_names);
 		i2c_addrs => [0x18..0x1f],
 		i2c_detect => sub { jedec_JC42_4_detect(@_, 13); },
 	}, {
+		name => "Microchip MCP9808",
+		driver => "jc42",
+		i2c_addrs => [0x18..0x1f],
+		i2c_detect => sub { jedec_JC42_4_detect(@_, 18); },
+	},{
 		name => "Microchip MCP98242",
 		driver => "jc42",
 		i2c_addrs => [0x18..0x1f],
@@ -1505,10 +1635,25 @@ use vars qw(@i2c_adapter_names);
 		i2c_addrs => [0x18..0x1f],
 		i2c_detect => sub { jedec_JC42_4_detect(@_, 9); },
 	}, {
+		name => "ON CAT34TS02C",
+		driver => "jc42",
+		i2c_addrs => [0x18..0x1f],
+		i2c_detect => sub { jedec_JC42_4_detect(@_, 19); },
+	}, {
+		name => "ON CAT34TS04",
+		driver => "jc42",
+		i2c_addrs => [0x18..0x1f],
+		i2c_detect => sub { jedec_JC42_4_detect(@_, 21); },
+	}, {
 		name => "Atmel AT30TS00",
 		driver => "jc42",
 		i2c_addrs => [0x18..0x1f],
 		i2c_detect => sub { jedec_JC42_4_detect(@_, 14); },
+	}, {
+		name => "Giantec GT30TS00",
+		driver => "jc42",
+		i2c_addrs => [0x18..0x1f],
+		i2c_detect => sub { jedec_JC42_4_detect(@_, 20); },
 	}
 );
 
@@ -2171,6 +2316,27 @@ use constant FEAT_SMBUS	=> (1 << 7);
 		logdev => 0x0b,
 		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
 	}, {
+		name => "Nuvoton NCT6793D Super IO Sensors",
+		driver => "nct6775",
+		devid => 0xD120,
+		devid_mask => 0xFFF0,
+		logdev => 0x0b,
+		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
+	}, {
+		name => "Nuvoton NCT6795D Super IO Sensors",
+		driver => "nct6775",
+		devid => 0xD350,
+		devid_mask => 0xFFF0,
+		logdev => 0x0b,
+		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
+	}, {
+		name => "Nuvoton NCT6796D Super IO Sensors",
+		driver => "nct6775",
+		devid => 0xD420,
+		devid_mask => 0xFFF0,
+		logdev => 0x0b,
+		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
+	}, {
 		name => "Nuvoton NCT6102D/NCT6104D/NCT6106D Super IO Sensors",
 		driver => "nct6775",
 		devid => 0xC450,
@@ -2203,7 +2369,7 @@ use constant FEAT_SMBUS	=> (1 << 7);
 		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
 	}, {
 		name => "Fintek F71868A Super IO Sensors",
-		driver => "to-be-written",
+		driver => "f71882fg",
 		devid => 0x1106,
 		logdev => 0x04,
 		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
@@ -2264,6 +2430,12 @@ use constant FEAT_SMBUS	=> (1 << 7);
 		driver => "not-a-sensor",
 		devid => 0x0206,
 	}, {
+		name => "Fintek F81768D Super IO Sensors",
+		driver => "f71882fg",
+		devid => 0x1210,
+		logdev => 0x04,
+		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
+	}, {
 		name => "Fintek F81865F Super IO Sensors",
 		driver => "f71882fg",
 		devid => 0x0704,
@@ -2271,7 +2443,7 @@ use constant FEAT_SMBUS	=> (1 << 7);
 		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
 	}, {
 		name => "Fintek F81866D Super IO Sensors",
-		driver => "to-be-written",
+		driver => "f71882fg",
 		devid => 0x1010,
 		logdev => 0x04,
 		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
@@ -2302,15 +2474,69 @@ use constant FEAT_SMBUS	=> (1 << 7);
 		logdev => 0x04,
 		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
 	}, {
+		name => "ITE IT8606E Super IO Sensors",
+		driver => "to-be-written",	# it87
+		devid => 0x8606,
+		logdev => 0x04,
+		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
+	}, {
+		name => "ITE IT8607E Super IO Sensors",
+		driver => "to-be-written",	# it87
+		devid => 0x8607,
+		logdev => 0x04,
+		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
+	}, {
+		name => "ITE IT8613E Super IO Sensors",
+		driver => "to-be-written",	# it87
+		devid => 0x8613,
+		logdev => 0x04,
+		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
+	}, {
 		name => "ITE IT8620E Super IO Sensors",
 		driver => "it87",
 		devid => 0x8620,
 		logdev => 0x04,
 		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
 	}, {
-		name => "ITE IT8623E Super IO Sensors",
+		name => "ITE IT8622E Super IO Sensors",
 		driver => "it87",
+		devid => 0x8622,
+		logdev => 0x04,
+		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
+	}, {
+		name => "ITE IT8623E Super IO Sensors",
+		driver => "to-be-written",	# it87
 		devid => 0x8623,
+		logdev => 0x04,
+		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
+	}, {
+		name => "ITE IT8625E Super IO Sensors",
+		driver => "to-be-written",	# it87
+		devid => 0x8625,
+		logdev => 0x04,
+		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
+	}, {
+		name => "ITE IT8626E Super IO Sensors",
+		driver => "to-be-written",	# it87
+		devid => 0x8626,
+		logdev => 0x04,
+		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
+	}, {
+		name => "ITE IT8655E Super IO Sensors",
+		driver => "to-be-written",	# it87
+		devid => 0x8655,
+		logdev => 0x04,
+		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
+	}, {
+		name => "ITE IT8665E Super IO Sensors",
+		driver => "to-be-written",	# it87
+		devid => 0x8665,
+		logdev => 0x04,
+		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
+	}, {
+		name => "ITE IT8686E Super IO Sensors",
+		driver => "to-be-written",	# it87
+		devid => 0x8686,
 		logdev => 0x04,
 		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
 	}, {
@@ -2433,6 +2659,18 @@ use constant FEAT_SMBUS	=> (1 << 7);
 		devid => 0x8790,
 		logdev => 0x04,
 		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
+	}, {
+		name => "ITE IT8792E Super IO Sensors",
+		driver => "it87",
+		devid => 0x8733,
+		logdev => 0x04,
+		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
+	}, {
+		name => "ITE IT8987D Embedded Controller",
+		driver => "to-be-written",
+		devid => 0x8987,
+		logdev => 0x04,
+		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
 	}
 );
 
@@ -2527,11 +2765,15 @@ use vars qw(@cpu_ids);
 	}, {
 		name => "AMD Family 15h thermal sensors",
 		driver => "k10temp",
-		detect => sub { amd_pci_detect('1603', '1403', '141d') },
+		detect => sub { amd_pci_detect('1603', '1403', '141d', '1573', '15b3') },
 	}, {
 		name => "AMD Family 16h thermal sensors",
 		driver => "k10temp",
 		detect => sub { amd_pci_detect('1533', '1583') },
+	}, {
+		name => "AMD Family 17h thermal sensors",
+		driver => "k10temp",
+		detect => sub { amd_pci_detect('1463', '15d0') },
 	}, {
 		name => "AMD Family 15h power sensors",
 		driver => "fam15h_power",
@@ -2728,7 +2970,7 @@ sub isa_read_i5d6
 # AUTODETECTION #
 #################
 
-use vars qw($dev_i2c $sysfs_root);
+use vars qw($dev_i2c $sysfs_root $systemd_systemctl $systemd_system_dir);
 
 sub initialize_conf
 {
@@ -2788,6 +3030,19 @@ sub initialize_conf
 			print "No i2c device files found.\n";
 			exit -1;
 		}
+	}
+
+	# Detect systemd presence and paths
+	if (-x "/usr/bin/systemctl") {
+		$systemd_systemctl = "/usr/bin/systemctl";
+	} elsif (-x "/bin/systemctl") {
+		$systemd_systemctl = "/bin/systemctl";
+	}
+
+	if (-d "/usr/lib/systemd/system") {
+		$systemd_system_dir = "/usr/lib/systemd/system";
+	} elsif (-d "/lib/systemd/system") {
+		$systemd_system_dir = "/lib/systemd/system";
 	}
 }
 
@@ -6007,7 +6262,7 @@ sub eeprom_detect
 		$checksum &= 0xff;
 
 		return 8 if $checksum == i2c_smbus_read_byte_data($file, 63);
-	} elsif ($device_type >= 9 && $device_type <= 11) {
+	} elsif ($device_type >= 9 && $device_type <= 12) {
 		# see JEDEC 21-C 4.1.2.11 2.4
 		my $crc_coverage = i2c_smbus_read_byte_data($file, 0);
 		$crc_coverage = ($crc_coverage & 0x80) ? 117 : 126;
@@ -6422,7 +6677,9 @@ sub max6655_detect
 #                 7 = MCP98243, 8 = MCP9843, 9 = CAT6095 / CAT34TS02,
 #                 10 = STTS424E, 11 = STTS2002, 12 = STTS3000
 #                 13 = MCP9804, 14 = AT30TS00, 15 = MCP98244,
-#                 16 = TSE2004, 17 = TS3001
+#                 16 = TSE2004, 17 = TS3001, 18 = MCP9808,
+#                 19 = CAT34TS02C, 20 = Giantec GT30TS00,
+#                 21 = CAT34TS04
 # Registers used:
 #   0x00: Capabilities
 #   0x01: Configuration
@@ -6494,6 +6751,18 @@ sub jedec_JC42_4_detect
 	} elsif ($chip == 15) {
 		return unless $manid == 0x00;		# MCP
 		return unless $devid == 0x22;		# MCP98244
+	} elsif ($chip == 18) {
+		return unless $manid == 0x00;		# MCP
+		return unless $devid == 0x04;		# MCP9808
+	} elsif ($chip == 19) {
+		return unless $manid == 0x1b;		# ON
+		return unless $devid == 0x0a;		# CAT34TS02C
+	} elsif ($chip == 20) {
+		return unless $manid == 0x1c || $manid == 0x13;	# Giantec
+		return unless $devid == 0x22;		# GT30TS00
+	} elsif ($chip == 21) {
+		return unless $manid == 0x1b;		# ONS
+		return unless $devid == 0x22;		# CAT34TS04
 	}
 
 	# Now, do it all again with words. Note that we get
@@ -6560,6 +6829,18 @@ sub jedec_JC42_4_detect
 	} elsif ($chip == 17) {
 		return unless $manid == 0xb300;		# IDT
 		return unless ($devid & 0x00ff) == 0x0030; # TS3001
+	} elsif ($chip == 18) {
+		return unless $manid == 0x5400;		# MCP
+		return unless ($devid & 0xfcff) == 0x0004; # MCP9808
+	} elsif ($chip == 19) {
+		return unless $manid == 0x091b;		# ONS
+		return unless ($devid & 0xf0ff) == 0x000a; # CAT34TS02C
+	} elsif ($chip == 20) {
+		return unless $manid == 0x681c || $manid == 0x2d13; # Giantec
+		return unless ($devid & 0x00ff) == 0x0022; # GT30TS00
+	} elsif ($chip == 21) {
+		return unless $manid == 0x091b;		# ONS
+		return unless ($devid & 0xf0ff) == 0x0022; # CAT34TS04
 	}
 
 	return 5;
@@ -7004,7 +7285,7 @@ sub generate_modprobes
 		next if not @{$chips_detected{$driver}};
 		if ($driver eq "to-be-written") {
 			print "Note: there is no driver for ${$chips_detected{$driver}}[0]{chipname} yet.\n".
-			      "Check http://www.lm-sensors.org/wiki/Devices for updates.\n\n";
+			      "Check https://hwmon.wiki.kernel.org/device_support_status for updates.\n\n";
 		} elsif (!is_module_builtin($driver)) {
 			open(local *INPUTFILE, "modprobe -l $driver 2>/dev/null |");
 			local $_;
@@ -7020,7 +7301,7 @@ sub generate_modprobes
 			# isn't supported
 			if ((($? >> 8) == 0) && ! $modulefound) {
 				print "Warning: the required module $driver is not currently installed\n".
-				      "on your system. Check http://www.lm-sensors.org/wiki/Devices for\n".
+				      "on your system. Check https://hwmon.wiki.kernel.org/device_support_status for\n".
 				      "driver availability.\n\n";
 			} else {
 				$hwmon_modules{$driver}++
@@ -7090,19 +7371,16 @@ EOT
 		print SYSCONFIG "HWMON_MODULES=\"", join(" ", @{$hwmon_modules}), "\"\n";
 		close(SYSCONFIG);
 
-		if (-x "/bin/systemctl" && -d "/lib/systemd/system" &&
-		    ! -f "/lib/systemd/system/lm_sensors.service") {
-			print "Copy prog/init/lm_sensors.service to /lib/systemd/system\n".
-			      "and run 'systemctl enable lm_sensors.service'\n".
-			      "for initialization at boot time.\n";
-			return;
-		}
-
-		if (-x "/bin/systemctl" &&
-		    -f "/lib/systemd/system/lm_sensors.service") {
-			system("/bin/systemctl", "enable", "lm_sensors.service");
-			system("/bin/systemctl", "start", "lm_sensors.service");
-			# All done, don't check for /etc/init.d/lm_sensors
+		if ($systemd_systemctl && $systemd_system_dir) {
+			if (-f "$systemd_system_dir/lm_sensors.service") {
+				system($systemd_systemctl, "enable", "lm_sensors.service");
+				system($systemd_systemctl, "start", "lm_sensors.service");
+				# All done, don't check for /etc/init.d/lm_sensors
+			} else {
+				print "Copy prog/init/lm_sensors.service to $systemd_system_dir\n".
+				      "and run 'systemctl enable lm_sensors.service'\n".
+				      "for initialization at boot time.\n";
+			}
 			return;
 		}
 
@@ -7170,13 +7448,6 @@ sub main
 		exit -1;
 	}
 
-	if (-x "/bin/systemctl" && -f "/lib/systemd/system/lm_sensors.service") {
-		system("/bin/systemctl", "stop", "lm_sensors.service");
-	} elsif (-x "/sbin/service" && -f "/etc/init.d/lm_sensors" &&
-		 -f "/var/lock/subsys/lm_sensors") {
-		system("/sbin/service", "lm_sensors", "stop");
-	}
-
 	initialize_kernel_version();
 	initialize_conf();
 	initialize_pci();
@@ -7186,6 +7457,14 @@ sub main
 	chip_special_cases();
 	initialize_modules_supported();
 	initialize_cpu_list();
+
+	if ($systemd_systemctl && $systemd_system_dir &&
+	    -f "$systemd_system_dir/lm_sensors.service") {
+		system("$systemd_systemctl", "stop", "lm_sensors.service");
+	} elsif (-x "/sbin/service" && -f "/etc/init.d/lm_sensors" &&
+		 -f "/var/lock/subsys/lm_sensors") {
+		system("/sbin/service", "lm_sensors", "stop");
+	}
 
 	print "# sensors-detect revision $revision\n";
 	initialize_dmi_data();
@@ -7223,9 +7502,9 @@ sub main
 	print "\n";
 
 	$superio_features = 0;
-	# Skip "random" I/O port probing on PPC
-	if ($kernel_arch ne 'ppc'
-	 && $kernel_arch ne 'ppc64') {
+	# Skip "random" I/O port probing on non-x86 machines
+	if ($kernel_arch =~ m/^i[3456]86$/
+	 || $kernel_arch eq 'x86_64') {
 		print "Some Super I/O chips contain embedded sensors. We have to write to\n".
 		      "standard I/O ports to probe them. This is usually safe.\n";
 		print "Do you want to scan for Super I/O sensors? (YES/no): ";
@@ -7312,7 +7591,7 @@ sub main
 			print "Either your system has no sensors, or they are not supported, or\n".
 			      "they are connected to an I2C or SMBus adapter that is not\n".
 			      "supported. If you find out what chips are on your board, check\n".
-			      "http://www.lm-sensors.org/wiki/Devices for driver status.\n";
+			      "https://hwmon.wiki.kernel.org/device_support_status for driver status.\n";
 		}
 		exit;
 	}
