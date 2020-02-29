@@ -8,7 +8,7 @@
 # Usage: fancontrol [CONFIGFILE]
 #
 # Dependencies:
-#   bash, egrep, sed, cut, sleep, readlink, lm_sensors :)
+#   bash, grep, sed, cut, sleep, readlink, lm_sensors :)
 #
 # Please send any questions, comments or success stories to
 # marius.reiner@hdev.de
@@ -55,18 +55,18 @@ function LoadConfig
 	fi
 
 	# grep configuration from file
-	INTERVAL=`egrep '^INTERVAL=.*$' $1 | sed -e 's/INTERVAL=//g'`
-	DEVPATH=`egrep '^DEVPATH=.*$' $1 | sed -e 's/DEVPATH= *//g'`
-	DEVNAME=`egrep '^DEVNAME=.*$' $1 | sed -e 's/DEVNAME= *//g'`
-	FCTEMPS=`egrep '^FCTEMPS=.*$' $1 | sed -e 's/FCTEMPS=//g'`
-	MINTEMP=`egrep '^MINTEMP=.*$' $1 | sed -e 's/MINTEMP=//g'`
-	MAXTEMP=`egrep '^MAXTEMP=.*$' $1 | sed -e 's/MAXTEMP=//g'`
-	MINSTART=`egrep '^MINSTART=.*$' $1 | sed -e 's/MINSTART=//g'`
-	MINSTOP=`egrep '^MINSTOP=.*$' $1 | sed -e 's/MINSTOP=//g'`
+	INTERVAL=$(grep -E '^INTERVAL=.*$' $1 | sed -e 's/INTERVAL=//g')
+	DEVPATH=$(grep -E '^DEVPATH=.*$' $1 | sed -e 's/DEVPATH= *//g')
+	DEVNAME=$(grep -E '^DEVNAME=.*$' $1 | sed -e 's/DEVNAME= *//g')
+	FCTEMPS=$(grep -E '^FCTEMPS=.*$' $1 | sed -e 's/FCTEMPS=//g')
+	MINTEMP=$(grep -E '^MINTEMP=.*$' $1 | sed -e 's/MINTEMP=//g')
+	MAXTEMP=$(grep -E '^MAXTEMP=.*$' $1 | sed -e 's/MAXTEMP=//g')
+	MINSTART=$(grep -E '^MINSTART=.*$' $1 | sed -e 's/MINSTART=//g')
+	MINSTOP=$(grep -E '^MINSTOP=.*$' $1 | sed -e 's/MINSTOP=//g')
 	# optional settings:
-	FCFANS=`egrep '^FCFANS=.*$' $1 | sed -e 's/FCFANS=//g'`
-	MINPWM=`egrep '^MINPWM=.*$' $1 | sed -e 's/MINPWM=//g'`
-	MAXPWM=`egrep '^MAXPWM=.*$' $1 | sed -e 's/MAXPWM=//g'`
+	FCFANS=$(grep -E '^FCFANS=.*$' $1 | sed -e 's/FCFANS=//g')
+	MINPWM=$(grep -E '^MINPWM=.*$' $1 | sed -e 's/MINPWM=//g')
+	MAXPWM=$(grep -E '^MAXPWM=.*$' $1 | sed -e 's/MAXPWM=//g')
 
 	# Check whether all mandatory settings are set
 	if [[ -z ${INTERVAL} || -z ${FCTEMPS} || -z ${MINTEMP} || -z ${MAXTEMP} || -z ${MINSTART} || -z ${MINSTOP} ]]
@@ -89,23 +89,23 @@ function LoadConfig
 	let fcvcount=0
 	for fcv in $FCTEMPS
 	do
-		if ! echo $fcv | egrep -q '='
+		if ! echo $fcv | grep -E -q '='
 		then
 			echo "Error in configuration file:" >&2
 			echo "FCTEMPS value is improperly formatted" >&2
 			exit 1
 		fi
 
-		AFCPWM[$fcvcount]=`echo $fcv |cut -d'=' -f1`
-		AFCTEMP[$fcvcount]=`echo $fcv |cut -d'=' -f2`
-		AFCFAN[$fcvcount]=`echo $FCFANS |sed -e 's/ /\n/g' |egrep "${AFCPWM[$fcvcount]}" |cut -d'=' -f2`
-		AFCMINTEMP[$fcvcount]=`echo $MINTEMP |sed -e 's/ /\n/g' |egrep "${AFCPWM[$fcvcount]}" |cut -d'=' -f2`
-		AFCMAXTEMP[$fcvcount]=`echo $MAXTEMP |sed -e 's/ /\n/g' |egrep "${AFCPWM[$fcvcount]}" |cut -d'=' -f2`
-		AFCMINSTART[$fcvcount]=`echo $MINSTART |sed -e 's/ /\n/g' |egrep "${AFCPWM[$fcvcount]}" |cut -d'=' -f2`
-		AFCMINSTOP[$fcvcount]=`echo $MINSTOP |sed -e 's/ /\n/g' |egrep "${AFCPWM[$fcvcount]}" |cut -d'=' -f2`
-		AFCMINPWM[$fcvcount]=`echo $MINPWM |sed -e 's/ /\n/g' |egrep "${AFCPWM[$fcvcount]}" |cut -d'=' -f2`
+		AFCPWM[$fcvcount]=$(echo $fcv |cut -d'=' -f1)
+		AFCTEMP[$fcvcount]=$(echo $fcv |cut -d'=' -f2)
+		AFCFAN[$fcvcount]=$(echo $FCFANS |sed -e 's/ /\n/g' |grep -E "${AFCPWM[$fcvcount]}" |cut -d'=' -f2)
+		AFCMINTEMP[$fcvcount]=$(echo $MINTEMP |sed -e 's/ /\n/g' |grep -E "${AFCPWM[$fcvcount]}" |cut -d'=' -f2)
+		AFCMAXTEMP[$fcvcount]=$(echo $MAXTEMP |sed -e 's/ /\n/g' |grep -E "${AFCPWM[$fcvcount]}" |cut -d'=' -f2)
+		AFCMINSTART[$fcvcount]=$(echo $MINSTART |sed -e 's/ /\n/g' |grep -E "${AFCPWM[$fcvcount]}" |cut -d'=' -f2)
+		AFCMINSTOP[$fcvcount]=$(echo $MINSTOP |sed -e 's/ /\n/g' |grep -E "${AFCPWM[$fcvcount]}" |cut -d'=' -f2)
+		AFCMINPWM[$fcvcount]=$(echo $MINPWM |sed -e 's/ /\n/g' |grep -E "${AFCPWM[$fcvcount]}" |cut -d'=' -f2)
 		[ -z "${AFCMINPWM[$fcvcount]}" ] && AFCMINPWM[$fcvcount]=0
-		AFCMAXPWM[$fcvcount]=`echo $MAXPWM |sed -e 's/ /\n/g' |egrep "${AFCPWM[$fcvcount]}" |cut -d'=' -f2`
+		AFCMAXPWM[$fcvcount]=$(echo $MAXPWM |sed -e 's/ /\n/g' |grep -E "${AFCPWM[$fcvcount]}" |cut -d'=' -f2)
 		[ -z "${AFCMAXPWM[$fcvcount]}" ] && AFCMAXPWM[$fcvcount]=255
 
 		# verify the validity of the settings
@@ -181,10 +181,10 @@ function ValidateDevices()
 
 	for entry in $OLD_DEVPATH
 	do
-		device=`echo "$entry" | sed -e 's/=[^=]*$//'`
-		path=`echo "$entry" | sed -e 's/^[^=]*=//'`
+		device=$(echo "$entry" | sed -e 's/=[^=]*$//')
+		path=$(echo "$entry" | sed -e 's/^[^=]*=//')
 
-		if [ "`DevicePath "$device"`" != "$path" ]
+		if [ "$(DevicePath "$device")" != "$path" ]
 		then
 			echo "Device path of $device has changed" >&2
 			outdated=1
@@ -193,10 +193,10 @@ function ValidateDevices()
 
 	for entry in $OLD_DEVNAME
 	do
-		device=`echo "$entry" | sed -e 's/=[^=]*$//'`
-		name=`echo "$entry" | sed -e 's/^[^=]*=//'`
+		device=$(echo "$entry" | sed -e 's/=[^=]*$//')
+		name=$(echo "$entry" | sed -e 's/^[^=]*=//')
 
-		if [ "`DeviceName "$device"`" != "$name" ]
+		if [ "$(DeviceName "$device")" != "$name" ]
 		then
 			echo "Device name of $device has changed" >&2
 			outdated=1
@@ -256,7 +256,7 @@ function FixupFiles
 
 	for entry in $DEVPATH
 	do
-		device=`echo "$entry" | sed -e 's/=[^=]*$//'`
+		device=$(echo "$entry" | sed -e 's/=[^=]*$//')
 
 		if [ -e "$device/name" ]
 		then
@@ -328,13 +328,13 @@ else
 fi
 
 # Detect path to sensors
-if echo "${AFCPWM[0]}" | egrep -q '^/'
+if echo "${AFCPWM[0]}" | grep -E -q '^/'
 then
 	DIR=/
-elif echo "${AFCPWM[0]}" | egrep -q '^hwmon[0-9]'
+elif echo "${AFCPWM[0]}" | grep -E -q '^hwmon[0-9]'
 then
 	DIR=/sys/class/hwmon
-elif echo "${AFCPWM[0]}" | egrep -q '^[1-9]*[0-9]-[0-9abcdef]{4}'
+elif echo "${AFCPWM[0]}" | grep -E -q '^[1-9]*[0-9]-[0-9abcdef]{4}'
 then
 	DIR=/sys/bus/i2c/devices
 else
@@ -378,6 +378,11 @@ then
 fi
 echo $$ > "$PIDFILE"
 
+# associative arrays to hold pwmN device name as key, and as value the
+# pwmN_enable and pwmN values as they were before fancontrol was started
+declare -A PWM_ENABLE_ORIG_STATE
+declare -A PWM_ORIG_STATE
+
 # $1 = pwm file name
 function pwmdisable()
 {
@@ -390,9 +395,46 @@ function pwmdisable()
 		return 0
 	fi
 
+	# Try to restore pwmN and pwmN_enable value to the same state as before
+	# fancontrol start. Restoring the pwmN value is tried first, before the
+	# pwmN_enable mode switch.
+	# Some chips seem to need this to properly restore fan operation,
+	# when activating automatic (2) mode.
+	if [ ${PWM_ENABLE_ORIG_STATE[${1}]} ]
+	then
+		#restore the pwmN value
+		if [ "$DEBUG" != "" ]
+		then
+			echo "Restoring ${1} original value of ${PWM_ORIG_STATE[${1}]}"
+		fi
+		echo ${PWM_ORIG_STATE[${1}]} > ${1} 2> /dev/null
+		# restore the pwmN_enable value, if it is not 1.
+		# 1 is already set through fancontrol and setting it again might just
+		# reset the pwmN value.
+		if [ ${PWM_ENABLE_ORIG_STATE[${1}]} != 1 ]
+		then
+			if [ "$DEBUG" != "" ]
+			then
+				echo "Restoring $ENABLE original value of ${PWM_ENABLE_ORIG_STATE[${1}]}"
+			fi
+			echo ${PWM_ENABLE_ORIG_STATE[${1}]} > $ENABLE 2> /dev/null
+			# check if setting pwmN_enable value was successful. Checking the
+			# pwmN value makes no sense, as it might already have been altered
+			# by the chip.
+			if [ "$(cat $ENABLE)" = ${PWM_ENABLE_ORIG_STATE[${1}]} ]
+			then
+				return 0
+			fi
+		# if pwmN_enable is manual (1), check if restoring the pwmN value worked
+		elif [ "$(cat ${1})" = ${PWM_ORIG_STATE[${1}]} ]
+		then
+			return 0
+		fi
+	fi
+
 	# Try pwmN_enable=0
 	echo 0 > $ENABLE 2> /dev/null
-	if [ `cat $ENABLE` -eq 0 ]
+	if [ "$(cat $ENABLE)" -eq 0 ]
 	then
 		# Success
 		return 0
@@ -401,14 +443,14 @@ function pwmdisable()
 	# It didn't work, try pwmN_enable=1 pwmN=255
 	echo 1 > $ENABLE 2> /dev/null
 	echo $MAX > $1
-	if [ `cat $ENABLE` -eq 1 -a `cat $1` -ge 190 ]
+	if [ "$(cat $ENABLE)" -eq 1 -a "$(cat $1)" -ge 190 ]
 	then
 		# Success
 		return 0
 	fi
 
 	# Nothing worked
-	echo "$ENABLE stuck to" `cat $ENABLE` >&2
+	echo "$ENABLE stuck to" "$(cat $ENABLE)" >&2
 	return 1
 }
 
@@ -419,6 +461,22 @@ function pwmenable()
 
 	if [ -f $ENABLE ]
 	then
+		# save the original pwmN_control state, e.g. 1 for manual or 2 for auto,
+		# and the value from pwmN
+		local PWM_CONTROL_ORIG=$(cat $ENABLE)
+		local PWM_ORIG=$(cat ${1})
+		if [ "$DEBUG" != "" ]
+		then
+			echo "Saving $ENABLE original value as $PWM_CONTROL_ORIG"
+			echo "Saving ${1} original value as $PWM_ORIG"
+		fi
+		#check for degenerate case where these values might be empty
+		if [ $PWM_CONTROL_ORIG ] && [ $PWM_ORIG ]
+		then
+			PWM_ENABLE_ORIG_STATE[${1}]=$PWM_CONTROL_ORIG
+			PWM_ORIG_STATE[${1}]=$PWM_ORIG
+		fi
+		# enable manual control by fancontrol
 		echo 1 > $ENABLE 2> /dev/null
 		if [ $? -ne 0 ]
 		then

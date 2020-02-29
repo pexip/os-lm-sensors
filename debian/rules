@@ -1,13 +1,16 @@
 #!/usr/bin/make -f
 
+include /usr/share/dpkg/architecture.mk
+
 %:
-	dh $@ --parallel --with systemd
+	dh $@ --with systemd
 
 MAKEARGS_INDP = DESTDIR=$(CURDIR)/debian/tmp \
 		PREFIX=/usr \
 		LIBDIR=/usr/lib/$(DEB_HOST_MULTIARCH) \
 		MANDIR=/usr/share/man
 MAKEARGS_ARCH = $(MAKEARGS_INDP) \
+		MACHINE=$(DEB_HOST_GNU_CPU) \
 		CFLAGS="$(CFLAGS)" \
 		CPPFLAGS="$(CPPFLAGS)" \
 		LDFLAGS="$(LDFLAGS)" \
@@ -23,7 +26,10 @@ override_dh_auto_clean:
 override_dh_auto_build-indep:
 
 override_dh_auto_install-indep:
-	$(MAKE) install-prog-pwm $(MAKEARGS_INDP)
+	$(MAKE) install-etc install-prog-pwm $(MAKEARGS_INDP)
+
+	# Make sure /etc/sensors.d/ is not removed
+	touch $(CURDIR)/debian/tmp/etc/sensors.d/.placeholder
 
 override_dh_installinit-indep:
 	dh_installinit -pfancontrol --restart-after-upgrade
@@ -37,9 +43,6 @@ override_dh_auto_build-arch:
 
 override_dh_auto_install-arch:
 	dh_auto_install -- $(MAKEARGS_ARCH)
-
-	# Make sure /etc/sensors.d/ is not removed
-	touch $(CURDIR)/debian/tmp/etc/sensors.d/.placeholder
 
 	# Install isadump only if it has been built (on x86/x86_64 archs only)
 	if [ -x prog/dump/isadump ] ; then \

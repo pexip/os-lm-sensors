@@ -1,6 +1,53 @@
 lm-sensors CHANGES file
 -----------------------
 
+git HEAD
+
+3.5.0 (2018-11-23)
+  Fixed disappearance of certain hwmon chips with 4.19+ kernels
+  Add the find-driver script for debugging
+  Various documentation and man page improvements
+  Fix various issues found by Coverity Scan
+  Fix compilation with the musl C library
+  Development version string now contains "+git" instead of "+SVN"
+  Updated links in documentation to reflect the new home of lm_sensors
+  sensors.1: Add reference to sensors-detect
+             Document -j option (json output)
+  sensors: Add support for json output
+           Add support for power min, lcrit, min_alarm, lcrit_alarm
+  sensors-detect: Fix systemd paths
+                  Add detection of Fintek F81768
+                  Only probe I/O ports on x86
+                  Add detection of Nuvoton NCT6793D
+                  Add detection of Microchip MCP9808
+                  Mark F71868A as supported by the f71882fg driver
+                  Mark F81768D as supported by the f71882fg driver
+                  Mark F81866D as supported by the f71882fg driver
+                  Add detection of various ITE chips
+                  Add detection of Nuvoton NCT6795D
+                  Add detection of DDR4 SPD
+                  Add detection of ITE IT8987D
+                  Add detection of AMD Family 17h temperature sensors
+                  Add detection of AMD KERNCZ SMBus controller
+                  Add detection of various Intel SMBus controllers
+                  Add detection of Giantec GT30TS00
+                  Add detection of ONS CAT34TS02C and CAT34TS04
+                  Add detection of AMD Family 15h Model 60+ temperature sensors
+                  Add detection of Nuvoton NCT6796D
+                  Add detection of AMD Family 15h Model 70+ temperature sensors
+  configs: Add sample configuration files.
+  sensors.conf.default: Add hardwired inputs of NCT6795D
+                        Add hardwired inputs of F71868A
+                        Add hardwired NCT6796D inputs
+  vt1211_pwm: replaced deprecated sub shell syntax
+              run with bash instead of sh
+  pwmconfig: replaced deprecated sub shell syntax
+  fancontrol: replaced deprecated sub shell syntax
+              save original pwm values
+  fancontrol.8: replaced deprecated sub shell syntax
+  libsensors: Add support for SENSORS_BUS_TYPE_SCSI
+              Add support for power min, lcrit, min_alarm, lcrit_alarm
+
 3.4.0 (2015-06-25)
   documentation: Update the note about libsensors license
   sensors.conf.5: Enhance the hysteresis documentation
@@ -341,7 +388,7 @@ lm-sensors CHANGES file
                   Skip ISA detection by default if a Super I/O was found (#2322)
                   Do not scan I2C adapters on multimedia cards by default
                   Skip SMBus probing by default if a Super I/O was found (#2322)
-                  Display I2C address statictics with --stat
+                  Display I2C address statistics with --stat
                   Document the new detection order and rules
                   Gather DMI data and print it at start-up
                   Always probe the SMBus on Asus, Tyan and Supermicro boards

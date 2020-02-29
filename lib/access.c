@@ -367,6 +367,10 @@ const char *sensors_get_adapter_name(const sensors_bus_id *bus)
 	   HID buses have a name nor where to find it. */
 	case SENSORS_BUS_TYPE_HID:
 		return "HID adapter";
+	case SENSORS_BUS_TYPE_MDIO:
+		return "MDIO adapter";
+	case SENSORS_BUS_TYPE_SCSI:
+		return "SCSI adapter";
 	}
 
 	/* bus types with several instances */

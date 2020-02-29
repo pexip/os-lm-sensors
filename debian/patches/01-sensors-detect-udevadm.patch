@@ -1,6 +1,10 @@
+---
+ prog/detect/sensors-detect |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 --- a/prog/detect/sensors-detect
 +++ b/prog/detect/sensors-detect
-@@ -3048,7 +3048,7 @@ sub load_module
+@@ -3298,7 +3298,7 @@
  # udev may take some time to create device nodes when loading modules
  sub udev_settle
  {

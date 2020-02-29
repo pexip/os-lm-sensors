@@ -1,3 +1,46 @@
+lm-sensors (1:3.5.0-3) unstable; urgency=medium
+
+  * Upload to unstable.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Wed, 19 Dec 2018 16:58:53 +0100
+
+lm-sensors (1:3.5.0-2) experimental; urgency=medium
+
+  * libsensors-config: add a Breaks: libsensors4. This will make the
+    transition more painful but is needed to move the configuration file from
+    one package to another (closes: #915873).
+  * debian/rules: fix FTCBFS by passing MACHINE to make. Thanks to Helmut
+    Grohne for the patch (closes: #915819).
+  * debian/rules: force the installation of /etc/sensors3.conf in the
+    architecture independent target (closes: #915810).
+
+ -- Aurelien Jarno <aurel32@debian.org>  Fri, 07 Dec 2018 19:51:55 +0100
+
+lm-sensors (1:3.5.0-1) experimental; urgency=medium
+
+  * New upstream version:
+    - sensors-detect now point to an existing web page (closes: #813137).
+    - Refresh 01-sensors-detect-udevadm.patch.
+    - Refresh 06-sensors-detect-debian.patch.
+    - Drop 07-sensors3.conf-local-changes.patch (obsolete).
+    - Drop 12-sensors-detect-superio-x86.patch upstreamed).
+    - Drop 13-sensors-manpage.patch (upstreamed).
+    - Rename libsensors4 package into libsensors5.
+  * Add a libsensors-config package and move the configuration files there.
+  * Update debian/control, debian/copyright and debian/watch to reflect
+    the new home page (closes: #882770).
+  * Update debian/copyright to reflect that the library is now released under
+    LGPL version 2.1 or later (closes: #912409).
+  * Bump debhelper compat version to 10.
+  * Downgrade priority from extra to optional.
+  * Drop ancient conflicts/replaces.
+  * Set Rules-Requires-Root: no.
+  * Add "Provides: libsensors-dev" to libsensors4-dev to be able to
+    transition to a version-less -dev package.
+  * Bumped Standards-version to 4.2.1.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Tue, 04 Dec 2018 21:14:55 +0100
+
 lm-sensors (1:3.4.0-4pexip1) pexip; urgency=medium
 
   * Migrate to Stretch
@@ -1827,6 +1870,3 @@ lm-sensors (1.4.9-1) unstable; urgency=low
 
  -- Stephen Crowley <crow@debian.org>  Sun,  8 Nov 1998 00:18:25 -0600
 
-Local variables:
-mode: debian-changelog
-End:
