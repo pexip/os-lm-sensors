@@ -1,3 +1,59 @@
+lm-sensors (1:3.6.0-7) unstable; urgency=medium
+
+  * Switch libsensors4-dev to architecture: any.  Closes: #981274.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sat, 30 Jan 2021 07:05:25 +0100
+
+lm-sensors (1:3.6.0-6) unstable; urgency=medium
+
+  * Restart fancontrol.service after power sleep.  Closes: #664141.
+  * Call dh_missing with --list-missing on non-Linux.  Closes: #980944.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Mon, 25 Jan 2021 01:03:48 +0100
+
+lm-sensors (1:3.6.0-5) unstable; urgency=medium
+
+  * Upload to unstable.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sat, 16 Jan 2021 11:54:36 +0100
+
+lm-sensors (1:3.6.0-4) experimental; urgency=medium
+
+  * Upload to experimental.
+  * Rename libsensors4-dev into libsensors-dev and replace libsensors4-dev by
+    a transitional package for a smooth transition. The transitional package
+    will be removed in bookworm.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sun, 10 Jan 2021 18:42:27 +0100
+
+lm-sensors (1:3.6.0-3) unstable; urgency=medium
+
+  * Bump debhelper compatibility to 13.
+  * Bump Standards-Version to 4.5.1 (no changes).
+  * Update fancontrol.service to use the /run directory instead of /var/run.
+    Closes: #973521.
+  * Ensure the process has stopped before returning in fancontrol initscript.
+    Closes: #830847.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sun, 10 Jan 2021 17:58:28 +0100
+
+lm-sensors (1:3.6.0-2) unstable; urgency=medium
+
+  * Replace MACHINE by ARCH in debian/rules. Thanks to Lucas Kanashiro for the
+    notice.  Closes: #944195.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Tue, 05 Nov 2019 20:57:53 +0100
+
+lm-sensors (1:3.6.0-1) unstable; urgency=medium
+
+  * New upstream version.
+  * Bump debhelper compatibility to 12.
+  * Bump Standards-Version to 4.4.1 (no changes).
+  * Fix debian/copyright to not refer to the versionless symlink GPL and
+    LGPL licenses.
+
+ -- Aurelien Jarno <aurel32@debian.org>  Sat, 19 Oct 2019 10:16:05 +0200
+
 lm-sensors (1:3.5.0-3) unstable; urgency=medium
 
   * Upload to unstable.
@@ -148,7 +204,7 @@ lm-sensors (1:3.3.3-1) unstable; urgency=low
 
 lm-sensors (1:3.3.2-2) unstable; urgency=low
 
-  * Tell user to restart kmod instead of modules-init-tools (closes: 
+  * Tell user to restart kmod instead of modules-init-tools (closes:
     #670213).
   * Install a systemd service file for lm-sensors (closes: #674778).
   * Correctly pass CPPFLAGS and LDFLAGS to build with hardening support.
@@ -181,26 +237,26 @@ lm-sensors (1:3.3.1-1) unstable; urgency=low
 lm-sensors (1:3.3.0-4) unstable; urgency=low
 
   * Rename source package to lm-sensors now that the version 2 is gone.
-  * Add patch from upstream to support 2 digits kernel version (closes: 
+  * Add patch from upstream to support 2 digits kernel version (closes:
     #630508).
   * Convert to multiarch:
     - Bump debhelper build-dep to >= 8.1.3 for multiarch.
     - Add Pre-Depends: ${misc:Pre-Depends} to libsensors4 and set it
     Multi-Arch: same.
     - Install the library in the multiarch path.
-  * Add build-arch and build-indep targets. 
+  * Add build-arch and build-indep targets.
 
  -- Aurelien Jarno <aurel32@debian.org>  Mon, 20 Jun 2011 21:25:57 +0200
 
 lm-sensors-3 (1:3.3.0-3) unstable; urgency=low
 
-  * Correctly detect udev in sensors-detect (closes: #628228). 
+  * Correctly detect udev in sensors-detect (closes: #628228).
 
  -- Aurelien Jarno <aurel32@debian.org>  Sat, 04 Jun 2011 22:42:37 +0200
 
 lm-sensors-3 (1:3.3.0-2) unstable; urgency=low
 
-  * Avoid printing a warning if ucf is not available (closes: #626402). 
+  * Avoid printing a warning if ucf is not available (closes: #626402).
 
  -- Aurelien Jarno <aurel32@debian.org>  Wed, 11 May 2011 20:02:23 +0200
 
@@ -209,8 +265,8 @@ lm-sensors-3 (1:3.3.0-1) unstable; urgency=low
   * New upstream version:
     - refresh all patches.
     - update 12-upstream-patches.patch with upstream recommended patches.
-    - update symbols file, now that upstream only export symbols of the 
-      public API. Hope it won't break anything, otherwise we should go 
+    - update symbols file, now that upstream only export symbols of the
+      public API. Hope it won't break anything, otherwise we should go
       through a soname bump and a transition.
   * Remove old fancontrol links in postinst (closes: bug#612231).
   * Bumped Standards-version to 3.9.2 (no changes).
@@ -232,7 +288,7 @@ lm-sensors-3 (1:3.2.0-1) unstable; urgency=low
 
 lm-sensors-3 (1:3.1.2-6) unstable; urgency=low
 
-  * Fix return value in fancontrol --check (closes: bug#583216). 
+  * Fix return value in fancontrol --check (closes: bug#583216).
 
  -- Aurelien Jarno <aurel32@debian.org>  Wed, 26 May 2010 19:17:40 +0200
 
@@ -256,7 +312,7 @@ lm-sensors-3 (1:3.1.2-3) unstable; urgency=medium
   * Add 09-sensord-multiple-chips.diff from upstream to fix multiple
     chip support in sensord (closes: bug#581036).
   * Fix error message in lm-sensors init script (closes: bug#581350).
-  * Remove /etc/rc1.d/K20sensord on upgrade (closes: bug#573898). 
+  * Remove /etc/rc1.d/K20sensord on upgrade (closes: bug#573898).
   * Fix typos in pwmconfig (closes: bug#570344).
 
  -- Aurelien Jarno <aurel32@debian.org>  Mon, 24 May 2010 23:11:32 +0200
@@ -269,14 +325,14 @@ lm-sensors-3 (1:3.1.2-2) unstable; urgency=low
 
 lm-sensors-3 (1:3.1.2-1) unstable; urgency=low
 
-  * New upstream version. 
+  * New upstream version.
   * Bumped Standards-version to 3.8.4 (no changes).
 
  -- Aurelien Jarno <aurel32@debian.org>  Thu, 04 Feb 2010 20:15:07 +0100
 
 lm-sensors-3 (1:3.1.1-6) unstable; urgency=low
 
-  * Move fancontrol.txt to the fancontrol package (closes: bug#567181). 
+  * Move fancontrol.txt to the fancontrol package (closes: bug#567181).
   * Remove old init scripts if they are not modified an upgrading from
     version (<< 1:3.1.1-5). (closes: bug#567183).
 
@@ -285,7 +341,7 @@ lm-sensors-3 (1:3.1.1-6) unstable; urgency=low
 lm-sensors-3 (1:3.1.1-5) unstable; urgency=low
 
   * Split-out fancontrol in a separate package (closes: bug#540677).
-  * Restart fancontrol in postinst instead of starting it (closes: 
+  * Restart fancontrol in postinst instead of starting it (closes:
     bug#552197).
   * Don't stop fancontrol in runlevel 0 1 6 (closes: bug#563835).
   * Don't stop sensord in runlevel 1.
@@ -297,15 +353,15 @@ lm-sensors-3 (1:3.1.1-5) unstable; urgency=low
 lm-sensors-3 (1:3.1.1-4) unstable; urgency=low
 
   * Bumped Standards-version to 3.8.3 (no changes).
-  * Drop libsensors4 postinst script and the dependency on makedev | 
+  * Drop libsensors4 postinst script and the dependency on makedev |
     udev. This part has been moved to i2c-tools.
 
  -- Aurelien Jarno <aurel32@debian.org>  Wed, 14 Oct 2009 00:20:17 +0200
 
 lm-sensors-3 (1:3.1.1-3) unstable; urgency=low
 
-  * *.init: depends on $remote_fs instead of $local_fs (closes: 
-    bug#541363). 
+  * *.init: depends on $remote_fs instead of $local_fs (closes:
+    bug#541363).
 
  -- Aurelien Jarno <aurel32@debian.org>  Thu, 13 Aug 2009 20:18:11 +0200
 
@@ -319,8 +375,8 @@ lm-sensors-3 (1:3.1.1-2) unstable; urgency=low
 
 lm-sensors-3 (1:3.1.1-1) unstable; urgency=low
 
-  * New upstream version. 
-    - LDFLAGS is taken into account by the build system (closes: 
+  * New upstream version.
+    - LDFLAGS is taken into account by the build system (closes:
       bug#513171).
   * debian/sensord.init: add a 'sleep 1' between stop and start for
     the restart action (closes: #528276).
@@ -346,7 +402,7 @@ lm-sensors-3 (1:3.1.0-1) unstable; urgency=low
   * lm-sensors.fancontrol.init: decrease the stop/start time to 3
     seconds (closes: bug#504379).
   * libsensors4.README.Debian: update.
-  * libsensors4.symbols: new file. 
+  * libsensors4.symbols: new file.
   * lm-sensors.preinst: remove /etc/modprobe.d/i2c on install/upgrade
     (closes: bug#518111).
   * patches/06-sensors-detect-debian.patch: update.
@@ -376,7 +432,7 @@ lm-sensors-3 (1:3.0.2-1) unstable; urgency=low
 
 lm-sensors-3 (1:3.0.1-5) unstable; urgency=low
 
-  * /etc/init.d/fancontrol: use --startas instead of --exec. 
+  * /etc/init.d/fancontrol: use --startas instead of --exec.
 
  -- Aurelien Jarno <aurel32@debian.org>  Thu, 17 Apr 2008 00:03:27 +0200
 
@@ -448,26 +504,26 @@ lm-sensors-3 (1:3.0.0-1) unstable; urgency=low
 
 lm-sensors (1:2.10.5-2) unstable; urgency=low
 
-  * Fix sensors-detect (closes: bug#451296). 
+  * Fix sensors-detect (closes: bug#451296).
 
  -- Aurelien Jarno <aurel32@debian.org>  Wed, 14 Nov 2007 22:19:59 +0100
 
 lm-sensors (1:2.10.5-1) unstable; urgency=low
 
-  * New upstream release. 
+  * New upstream release.
 
  -- Aurelien Jarno <aurel32@debian.org>  Mon, 12 Nov 2007 15:12:28 +0100
 
 lm-sensors (1:2.10.4-3) unstable; urgency=low
 
-  * Don't print an error message if the die-code entry does not exists. 
-    (closes: bug#443060). 
+  * Don't print an error message if the die-code entry does not exists.
+    (closes: bug#443060).
 
  -- Aurelien Jarno <aurel32@debian.org>  Mon, 24 Sep 2007 10:27:34 +0200
 
 lm-sensors (1:2.10.4-2) unstable; urgency=low
 
-  * pwmconfig: reprint the prompt each time (closes: bug#400609). 
+  * pwmconfig: reprint the prompt each time (closes: bug#400609).
 
  -- Aurelien Jarno <aurel32@debian.org>  Wed, 12 Sep 2007 17:30:06 +0200
 
@@ -477,7 +533,7 @@ lm-sensors (1:2.10.4-1) unstable; urgency=low
   * Use dh_installmodules with -n (closes: bug#432413).
   * Remove "ASUS rumors" from the default configuration files (closes:
     bug#426128).
-  * Remove the 2.4 kernel part from the description (closes: bug#432969). 
+  * Remove the 2.4 kernel part from the description (closes: bug#432969).
 
  -- Aurelien Jarno <aurel32@debian.org>  Fri, 20 Jul 2007 15:47:11 +0200
 
@@ -522,7 +578,7 @@ lm-sensors (1:2.10.0-8) unstable; urgency=medium
 
   * 2.4 kernels are deprecated, stop building lm-sensors-source and
     kernel-patch-2.4-lm-sensors (Closes: bug#385279).
-  * Disable lm85 /sys entries that while be introduced in 2.6.19+ 
+  * Disable lm85 /sys entries that while be introduced in 2.6.19+
     kernels (Closes: #372740).
 
  -- Aurelien Jarno <aurel32@debian.org>  Wed, 30 Aug 2006 12:05:15 +0200
@@ -543,7 +599,7 @@ lm-sensors (1:2.10.0-6) unstable; urgency=low
 lm-sensors (1:2.10.0-5) unstable; urgency=low
 
   * 2.4 kernels are deprecated, stop building the modules on i386.
-  * Added Galician debconf translation, thanks to Jacobo Tarrio (closes: 
+  * Added Galician debconf translation, thanks to Jacobo Tarrio (closes:
     bug#362138).
 
  -- Aurelien Jarno <aurel32@debian.org>  Wed, 12 Apr 2006 15:49:45 +0200
@@ -551,7 +607,7 @@ lm-sensors (1:2.10.0-5) unstable; urgency=low
 lm-sensors (1:2.10.0-4) unstable; urgency=low
 
   * Update Russian debconf translation, thanks to Yuri Kozlov (closes:
-    bug#360962). 
+    bug#360962).
 
  -- Aurelien Jarno <aurel32@debian.org>  Thu,  6 Apr 2006 17:23:14 +0200
 
@@ -578,7 +634,7 @@ lm-sensors (1:2.10.0-1) unstable; urgency=low
 
 lm-sensors (1:2.9.2-8) unstable; urgency=low
 
-  * Fixed udev detection (closes: bug#350404). 
+  * Fixed udev detection (closes: bug#350404).
 
  -- Aurelien Jarno <aurel32@debian.org>  Sun, 29 Jan 2006 23:07:25 +0100
 
@@ -592,7 +648,7 @@ lm-sensors (1:2.9.2-7) unstable; urgency=low
 lm-sensors (1:2.9.2-6) unstable; urgency=low
 
   * Fixed Suggests line: s/ inux/linux/g (closes: bug#340614).
-  * Fixed FSF address in copyright file.  
+  * Fixed FSF address in copyright file.
 
  -- Aurelien Jarno <aurel32@debian.org>  Thu, 24 Nov 2005 20:10:31 +0100
 
@@ -666,7 +722,7 @@ lm-sensors (1:2.9.1-4) unstable; urgency=low
 
 lm-sensors (1:2.9.1-3) unstable; urgency=low
 
-  * Build-depends on debhelper (>= 4.9.3) to use a working dh_installmodules. 
+  * Build-depends on debhelper (>= 4.9.3) to use a working dh_installmodules.
   * Bumped Standards-version to 3.6.2 (No changes).
 
  -- Aurelien Jarno <aurel32@debian.org>  Wed, 29 Jun 2005 07:33:17 +0200
@@ -682,13 +738,13 @@ lm-sensors (1:2.9.1-2) unstable; urgency=low
 
 lm-sensors (1:2.9.1-1) unstable; urgency=low
 
-  * New upstream version. 
+  * New upstream version.
 
  -- Aurelien Jarno <aurel32@debian.org>  Fri, 15 Apr 2005 07:33:35 +0200
 
 lm-sensors (1:2.9.0-19) unstable; urgency=medium
 
-  * Patch pulled from CVS: read /etc/udev.conf to know how to detect 
+  * Patch pulled from CVS: read /etc/udev.conf to know how to detect
     the presence of udev.
 
  -- Aurelien Jarno <aurel32@debian.org>  Mon, 28 Mar 2005 23:02:35 +0200
@@ -714,7 +770,7 @@ lm-sensors (1:2.9.0-16) unstable; urgency=high
 
 lm-sensors (1:2.9.0-15) unstable; urgency=low
 
-  * Added support for it8712 in sensord (closes: bug#298168). 
+  * Added support for it8712 in sensord (closes: bug#298168).
 
  -- Aurelien Jarno <aurel32@debian.org>  Sun,  6 Mar 2005 00:57:07 +0100
 
@@ -727,7 +783,7 @@ lm-sensors (1:2.9.0-14) unstable; urgency=low
 
 lm-sensors (1:2.9.0-13) unstable; urgency=low
 
-  * Disable error message of /etc/init.d/sensors is monitoring modules 
+  * Disable error message of /etc/init.d/sensors is monitoring modules
     are not loaded (closes: bug#295160).
 
  -- Aurelien Jarno <aurel32@debian.org>  Mon, 14 Feb 2005 07:44:50 +0100
@@ -740,7 +796,7 @@ lm-sensors (1:2.9.0-12) unstable; urgency=medium
 
 lm-sensors (1:2.9.0-11) unstable; urgency=low
 
-  * Fixed a bad UTF-8 character in fancontrol(8). 
+  * Fixed a bad UTF-8 character in fancontrol(8).
 
  -- Aurelien Jarno <aurel32@debian.org>  Fri, 28 Jan 2005 00:22:01 +0100
 
@@ -759,7 +815,7 @@ lm-sensors (1:2.9.0-10) unstable; urgency=low
 lm-sensors (1:2.9.0-9) unstable; urgency=high
 
   * Applied a patch from Javier Fernández-Sanguino Peña to fix an insecure
-    temp file creation (closes: bug#291957). 
+    temp file creation (closes: bug#291957).
 
  -- Aurelien Jarno <aurel32@debian.org>  Mon, 24 Jan 2005 13:45:23 +0100
 
@@ -772,14 +828,14 @@ lm-sensors (1:2.9.0-8) unstable; urgency=low
 lm-sensors (1:2.9.0-7) unstable; urgency=low
 
   * Build against kernel 2.4.27-2 (closes: bug#289913).
-  * Explain that the loadavg is not scaled anymore by sensord in NEWS 
+  * Explain that the loadavg is not scaled anymore by sensord in NEWS
     (closes: bug#289921).
 
  -- Aurelien Jarno <aurel32@debian.org>  Tue, 11 Jan 2005 22:38:17 +0100
 
 lm-sensors (1:2.9.0-6) unstable; urgency=low
 
-  * Fixed a typo in sensors-detect (closes: bug#289871). 
+  * Fixed a typo in sensors-detect (closes: bug#289871).
 
  -- Aurelien Jarno <aurel32@debian.org>  Tue, 11 Jan 2005 17:25:46 +0100
 
@@ -807,7 +863,7 @@ lm-sensors (1:2.9.0-3) unstable; urgency=low
 
 lm-sensors (1:2.9.0-2) unstable; urgency=low
 
-  * Removed build rules. 
+  * Removed build rules.
 
  -- Aurelien Jarno <aurel32@debian.org>  Mon,  3 Jan 2005 00:23:03 +0100
 
@@ -831,13 +887,13 @@ lm-sensors (2.8.8-7) unstable; urgency=high
 
 lm-sensors (2.8.8-6) unstable; urgency=low
 
-  * Only install isaset on i386 arches. 
+  * Only install isaset on i386 arches.
 
  -- Aurelien Jarno <aurel32@debian.org>  Wed, 17 Nov 2004 13:21:15 +0000
 
 lm-sensors (2.8.8-5) unstable; urgency=low
 
-  * Also install /usr/bin/isaset and the corresponding manpage. 
+  * Also install /usr/bin/isaset and the corresponding manpage.
 
  -- Aurelien Jarno <aurel32@debian.org>  Wed, 17 Nov 2004 00:34:52 +0100
 
@@ -888,7 +944,7 @@ lm-sensors (2.8.7-7) unstable; urgency=high
 
 lm-sensors (2.8.7-6) unstable; urgency=low
 
-  * Fixed a typo in sensors-detect (closes: bug#266966). 
+  * Fixed a typo in sensors-detect (closes: bug#266966).
 
  -- Aurelien Jarno <aurel32@debian.org>  Fri, 20 Aug 2004 00:18:36 +0200
 
@@ -920,8 +976,8 @@ lm-sensors (2.8.7-3) unstable; urgency=high
 
 lm-sensors (2.8.7-2) unstable; urgency=medium
 
-  * /usr/sbin/sensors-detect: don't check for i2c device node when using 
-    udev. They will be created when the module is loaded (closes: 
+  * /usr/sbin/sensors-detect: don't check for i2c device node when using
+    udev. They will be created when the module is loaded (closes:
     bug#254556).
   * Updated Brazilian debconf translation. Thanks to Andre Luis Lopes
     (closes: bug#264216).
@@ -932,8 +988,8 @@ lm-sensors (2.8.7-2) unstable; urgency=medium
 
 lm-sensors (2.8.7-1) unstable; urgency=low
 
-  * New upstream version. 
-  * sensors-detect: display instructions depending on the kernel version 
+  * New upstream version.
+  * sensors-detect: display instructions depending on the kernel version
     (closes: bug#253892).
 
  -- Aurelien Jarno <aurel32@debian.org>  Sat, 12 Jun 2004 00:03:00 +0200
@@ -942,14 +998,14 @@ lm-sensors (2.8.6-13) unstable; urgency=low
 
   * Added Italian debconf translation. Thanks to Luca Monducci (closes:
     bug#251739).
-  * Removed patch generation for kernels 2.4.19, 2.4.20, 2.4.21  and 
+  * Removed patch generation for kernels 2.4.19, 2.4.20, 2.4.21  and
     2.4.22 as they have been removed from Debian.
 
  -- Aurelien Jarno <aurel32@debian.org>  Mon, 31 May 2004 22:45:50 +0200
 
 lm-sensors (2.8.6-12) unstable; urgency=low
 
-  * Added Catalan debconf translation. Thanks to Aleix Badia i Bosch 
+  * Added Catalan debconf translation. Thanks to Aleix Badia i Bosch
     (closes: bug#250112).
 
  -- Aurelien Jarno <aurel32@debian.org>  Fri, 28 May 2004 13:33:00 +0200
@@ -1055,7 +1111,7 @@ lm-sensors (2.8.6-1) unstable; urgency=medium
 
 lm-sensors (2.8.5-4) unstable; urgency=low
 
-  * Provide a new package that contains patch for lm-sensors against 
+  * Provide a new package that contains patch for lm-sensors against
     2.4 kernels (closes: bug#238437).
   * Don't pass -n option to the second echo in /etc/init.d/lm-sensors
     (closes: bug#238429).
@@ -1483,7 +1539,7 @@ lm-sensors (2.5.4-12) unstable; urgency=low
 
 lm-sensors (2.5.4-11) unstable; urgency=low
 
-  * Made the library package only recommend lm-sensors. You may want 
+  * Made the library package only recommend lm-sensors. You may want
     to install something like mrtgutils w/o dragging in all of
     lm-sensors.
 
@@ -1512,7 +1568,7 @@ lm-sensors (2.5.4-8) unstable; urgency=low
 
 lm-sensors (2.5.4-7) unstable; urgency=low
 
-  * Fixed override disparities. 
+  * Fixed override disparities.
 
  -- Joey Hess <joeyh@debian.org>  Wed, 31 Jan 2001 12:27:52 -0800
 
@@ -1562,7 +1618,7 @@ lm-sensors (2.5.2-3) unstable; urgency=low
 lm-sensors (2.5.2-2) unstable; urgency=low
 
   * Moved lm-sensors binary package from section misc to section utils
-    (well, the override filee will probably still need to be updated to 
+    (well, the override filee will probably still need to be updated to
     follow suit, so I am actually going to reassign bug #74467 to ftp.d.o).
 
  -- Joey Hess <joeyh@debian.org>  Thu, 12 Oct 2000 11:11:08 -0400
@@ -1592,7 +1648,7 @@ lm-sensors (2.5.0-8) unstable; urgency=low
 
   * Quoted some text used inside a m// in sensors-detect. Closes: #69461
   * Now depends on the current makedev package, which uses /dev/i2c-*, in
-    complience with devices.txt and upstream, not /dev/i2c* that Debian 
+    complience with devices.txt and upstream, not /dev/i2c* that Debian
     used to use for some reason. I belive this Closes: #61670, #65381
   * Note that this means that /dev/i2c0 and /dev/i2c1 will still be around
     after this upgrade. Policy says I cannot remove them; up to admin. So
@@ -1632,7 +1688,7 @@ lm-sensors (2.5.0-4) unstable; urgency=low
 lm-sensors (2.5.0-3) unstable; urgency=low
 
   * Shut up warnings about .d files, Closes: 64045
-  
+
  -- Joey Hess <joeyh@debian.org>  Tue, 16 May 2000 01:01:24 -0700
 
 lm-sensors (2.5.0-2) unstable; urgency=low
@@ -1753,7 +1809,7 @@ lm-sensors (2.4.3-1) unstable; urgency=low
 
 lm-sensors (2.3.4-6) unstable; urgency=low
 
-  * Corrected filename to /usr/share/kernel-package/README.modules, 
+  * Corrected filename to /usr/share/kernel-package/README.modules,
     Closes: #46440
 
  -- Joey Hess <joeyh@debian.org>  Sun,  3 Oct 1999 12:58:24 -0700

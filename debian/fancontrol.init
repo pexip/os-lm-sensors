@@ -40,13 +40,13 @@ case "$1" in
 	;;
   stop)
 	log_daemon_msg "Stopping $DESC" "$NAME"
-	start-stop-daemon --stop --quiet --pidfile $PIDFILE --oknodo --startas $DAEMON $CONF
+	start-stop-daemon --stop --quiet --pidfile $PIDFILE --oknodo --retry 30 --startas $DAEMON $CONF
+	ret=$?
 	rm -f $PIDFILE
-	log_end_msg $?
+	log_end_msg $ret
 	;;
   restart)
   	$0 stop
-	sleep 3
 	$0 start
 	;;
   force-reload)
@@ -55,12 +55,10 @@ case "$1" in
 	fi
 	;;
   status)
-	status_of_proc $DAEMON $NAME $CONF && exit 0 || exit $?
+	status_of_proc $DAEMON $NAME $CONF
 	;;
   *)
 	log_success_msg "Usage: /etc/init.d/fancontrol {start|stop|restart|force-reload|status}"
 	exit 1
 	;;
 esac
-
-exit 0
