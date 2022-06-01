@@ -38,12 +38,9 @@ foreach ('/usr/sbin', '/usr/local/sbin', '/sbin') {
 #########################
 
 use constant NO_CACHE => 1;
+use constant LM_VERSION => '3.6.0';
 use vars qw(@pci_adapters @chip_ids @ipmi_ifs @non_hwmon_chip_ids
-	    $i2c_addresses_to_scan $revision @i2c_byte_cache %opt);
-
-$revision = '$Revision$ ($Date$)';
-$revision =~ s/\$\w+: (.*?) \$/$1/g;
-$revision =~ s/ \([^()]*\)//;
+	    $i2c_addresses_to_scan @i2c_byte_cache %opt);
 
 # This is the list of SMBus or I2C adapters we recognize by their PCI
 # signature. This is an easy and fast way to determine which SMBus or I2C
@@ -1441,7 +1438,7 @@ use vars qw(@i2c_adapter_names);
 		i2c_detect => sub { fintek_detect(@_, 4); },
 	}, {
 		name => "Fintek F75387SG/RG",
-		driver => "to-be-written",
+		driver => "f75375s",
 		i2c_addrs => [0x2d..0x2e],
 		i2c_detect => sub { fintek_detect(@_, 5); },
 	}, {
@@ -2281,20 +2278,6 @@ use constant FEAT_SMBUS	=> (1 << 7);
 		driver => "not-a-sensor",
 		devid => 0x61,
 	}, {
-		name => "Nuvoton NCT5573D/NCT5577D/NCT6776F Super IO Sensors",
-		driver => "nct6775",
-		devid => 0xC330,
-		devid_mask => 0xFFF0,
-		logdev => 0x0b,
-		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
-	}, {
-		name => "Nuvoton NCT5532D/NCT6779D Super IO Sensors",
-		driver => "nct6775",
-		devid => 0xC560,
-		devid_mask => 0xFFF0,
-		logdev => 0x0b,
-		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
-	}, {
 		name => "Nuvoton NCT6683D eSIO",
 		driver => "nct6683",
 		devid => 0xC730,
@@ -2302,45 +2285,80 @@ use constant FEAT_SMBUS	=> (1 << 7);
 		logdev => 0x0b,
 		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
 	}, {
+		name => "Nuvoton NCT6102D/NCT6104D/NCT6106D Super IO Sensors",
+		driver => "nct6775",
+		devid => 0xC450,
+		devid_mask => 0xFFF8,
+		logdev => 0x0b,
+		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
+	}, {
+		name => "Nuvoton NCT6112D/NCT6114D/NCT6116D Super IO Sensors",
+		driver => "nct6775",
+		devid => 0xD280,
+		devid_mask => 0xFFF8,
+		logdev => 0x0b,
+		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
+	}, {
+		name => "Nuvoton NCT5573D/NCT5577D/NCT6776F Super IO Sensors",
+		driver => "nct6775",
+		devid => 0xC330,
+		devid_mask => 0xFFF8,
+		logdev => 0x0b,
+		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
+	}, {
+		name => "Nuvoton NCT5532D/NCT6779D Super IO Sensors",
+		driver => "nct6775",
+		devid => 0xC560,
+		devid_mask => 0xFFF8,
+		logdev => 0x0b,
+		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
+	}, {
 		name => "Nuvoton NCT6791D Super IO Sensors",
 		driver => "nct6775",
 		devid => 0xC800,
-		devid_mask => 0xFFF0,
+		devid_mask => 0xFFF8,
 		logdev => 0x0b,
 		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
 	}, {
 		name => "Nuvoton NCT6792D Super IO Sensors",
 		driver => "nct6775",
 		devid => 0xC910,
-		devid_mask => 0xFFF0,
+		devid_mask => 0xFFF8,
 		logdev => 0x0b,
 		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
 	}, {
 		name => "Nuvoton NCT6793D Super IO Sensors",
 		driver => "nct6775",
 		devid => 0xD120,
-		devid_mask => 0xFFF0,
+		devid_mask => 0xFFF8,
 		logdev => 0x0b,
 		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
 	}, {
 		name => "Nuvoton NCT6795D Super IO Sensors",
 		driver => "nct6775",
 		devid => 0xD350,
-		devid_mask => 0xFFF0,
+		devid_mask => 0xFFF8,
 		logdev => 0x0b,
 		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
 	}, {
 		name => "Nuvoton NCT6796D Super IO Sensors",
 		driver => "nct6775",
 		devid => 0xD420,
-		devid_mask => 0xFFF0,
+		devid_mask => 0xFFF8,
 		logdev => 0x0b,
 		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
 	}, {
-		name => "Nuvoton NCT6102D/NCT6104D/NCT6106D Super IO Sensors",
+		name => "Nuvoton NCT6797D Super IO Sensors",
 		driver => "nct6775",
-		devid => 0xC450,
-		devid_mask => 0xFFF0,
+		devid => 0xD450,
+		devid_mask => 0xFFF8,
+		logdev => 0x0b,
+		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
+	}, {
+		name => "Nuvoton NCT6798D Super IO Sensors",
+		driver => "nct6775",
+		devid => 0xD428,
+		devid_mask => 0xFFF8,
 		logdev => 0x0b,
 		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
 	}, {
@@ -2773,15 +2791,21 @@ use vars qw(@cpu_ids);
 	}, {
 		name => "AMD Family 17h thermal sensors",
 		driver => "k10temp",
-		detect => sub { amd_pci_detect('1463', '15d0') },
+		detect => sub { amd_pci_detect('1463', '15d0', '1493', '1443') },
 	}, {
 		name => "AMD Family 15h power sensors",
 		driver => "fam15h_power",
-		detect => sub { amd_pci_detect('1604') },
+		detect => sub {
+			amd_pci_detect('1604', '141e', '1574', '15b4')
+		},
 	}, {
 		name => "AMD Family 16h power sensors",
 		driver => "fam15h_power",
-		detect => sub { amd_pci_detect('1534') },
+		detect => sub { amd_pci_detect('1534', '1584') },
+	}, {
+		name => "Hygon Family 18h thermal sensors",
+		driver => "k10temp",
+		detect => sub { hygon_pci_detect('1463') },
 	}, {
 		name => "Intel digital thermal sensor",
 		driver => "coretemp",
@@ -3103,7 +3127,7 @@ sub initialize_cpu_list
 			};
 			next;
 		}
-		if (m/^(vendor_id|cpu family|model|model name|stepping|cpuid level)\s*:\s*(.+)$/) {
+		if (m/^(vendor_id|cpu family|model|model name|stepping|cpuid level|cpu|revision)\s*:\s*(.+)$/) {
 			my $k = $1;
 			my $v = $2;
 			$v =~ s/\s+/ /g;	# Merge multiple spaces
@@ -3119,7 +3143,16 @@ sub initialize_cpu_list
 sub print_cpu_info
 {
 	my $cpu = $cpu[0];
-	print "# Processor: $cpu->{'model name'} ($cpu->{'cpu family'}/$cpu->{model}/$cpu->{stepping})\n";
+	if ($kernel_arch =~ m/^ppc(64(le)?)?$/) {
+		print "# Processor: $cpu->{cpu} ($cpu->{revision})\n";
+	} elsif ($kernel_arch =~ m/^arm/) {
+		print "# Processor: $cpu->{'model name'}\n";
+	} elsif (exists $cpu->{'model name'} && exists $cpu->{'cpu family'}
+	         && exists $cpu->{'model'} && exists $cpu->{'stepping'}) {
+		print "# Processor: $cpu->{'model name'} ($cpu->{'cpu family'}/$cpu->{model}/$cpu->{stepping})\n";
+	} else {
+		print "# Cannot show processor info on $kernel_arch architecture.\n";
+	}
 }
 
 # @i2c_adapters is a list of references to hashes, one hash per I2C/SMBus
@@ -7046,6 +7079,15 @@ sub amd_pci_detect
 	return undef;
 }
 
+sub hygon_pci_detect
+{
+	my $dev_id;
+	while (defined($dev_id = shift)) {
+		return 9 if exists $pci_list{"1d94:$dev_id"};
+	}
+	return undef;
+}
+
 sub fam10h_pci_detect
 {
 	return unless exists $pci_list{'1022:1203'};
@@ -7466,7 +7508,7 @@ sub main
 		system("/sbin/service", "lm_sensors", "stop");
 	}
 
-	print "# sensors-detect revision $revision\n";
+	print "# sensors-detect version ".LM_VERSION."\n";
 	initialize_dmi_data();
 	print_dmi_summary();
 	print_kernel_version();
