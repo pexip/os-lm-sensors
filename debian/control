@@ -7,7 +7,7 @@ Maintainer: Pexip AS <packaging@pexip.com>
 XSBC-Pexip-Original-Maintainer: Aurelien Jarno <aurel32@debian.org>
 Standards-Version: 4.5.1
 Homepage: https://hwmon.wiki.kernel.org/lm_sensors
-XS-Pexip-Upstream: http://deb.debian.org/debian/ bullseye
+XS-Pexip-Upstream: http://deb.debian.org/debian/ bookworm
 
 Package: lm-sensors
 Architecture: linux-any
