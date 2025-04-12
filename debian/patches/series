@@ -1,8 +1,14 @@
 01-sensors-detect-udevadm.patch
 02-sensors-conf-convert-improvements.patch
 06-sensors-detect-debian.patch
-08-sensors-detect-lm85.patch
-09-sensors-detect-sch5524.patch
+08-sensors-detect-more-chips.patch
+10-missing-sensor-warning.patch
 11-fancontrol-check.patch
 14-2-digits-kernel.patch
 15-path-max.patch
+20-isadump.8-editorial-fixes.patch
+21-isaset.8-editorial-fixes.patch
+22-sensors.1-editorial-fixes.patch
+23-sensors-conf-convert.8-editorial-fixes.patch
+24-sensors-detect.8-editorial-fixes.patch
+25-sensors.conf.5-editorial-fixes.patch

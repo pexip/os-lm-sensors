@@ -42,6 +42,7 @@
 #define VERSION			LM_VERSION
 
 static int do_sets, do_raw, do_json, hide_adapter;
+int new_json;
 
 int fahrenheit;
 char degstr[5]; /* store the correct string to print degrees */
@@ -54,15 +55,16 @@ static void print_short_help(void)
 static void print_long_help(void)
 {
 	printf("Usage: %s [OPTION]... [CHIP]...\n", PROGRAM);
-	puts("  -c, --config-file     Specify a config file\n"
-	     "  -h, --help            Display this help text\n"
-	     "  -s, --set             Execute `set' statements (root only)\n"
-	     "  -f, --fahrenheit      Show temperatures in degrees fahrenheit\n"
-	     "  -A, --no-adapter      Do not show adapter for each chip\n"
-	     "      --bus-list        Generate bus statements for sensors.conf\n"
-	     "  -u                    Raw output\n"
-	     "  -j                    Json output\n"
-	     "  -v, --version         Display the program version\n"
+	puts("  -c, --config-file      Specify a config file\n"
+	     "  -h, --help             Display this help text\n"
+	     "  -s, --set              Execute `set' statements (root only)\n"
+	     "  -f, --fahrenheit       Show temperatures in degrees fahrenheit\n"
+	     "  -A, --no-adapter       Do not show adapter for each chip\n"
+	     "      --bus-list         Generate bus statements for sensors.conf\n"
+	     "  -u                     Raw output\n"
+	     "  -j                     Json output\n"
+	     "  -v, --version          Display the program version\n"
+	     "  -n, --allow-no-sensors Do not fail if no sensors found\n"
 	     "\n"
 	     "Use `-' after `-c' to read the config file from stdin.\n"
 	     "If no chips are specified, all chip info will be printed.\n"
@@ -176,16 +178,22 @@ static void do_a_print(const sensors_chip_name *name)
 
 static void do_a_json_print(const sensors_chip_name *name)
 {
-	printf("   \"%s\":{\n", sprintf_chip_name(name));
+	printf("\"%s\":{", sprintf_chip_name(name));
 	if (!hide_adapter) {
+		int a = 0;
 		const char *adap = sensors_get_adapter_name(&name->bus);
-		if (adap)
-			printf("      \"Adapter\": \"%s\",\n", adap);
-		else
+		if (adap) {
+			printf("\"Adapter\":\"%s\"", adap);
+			/* only print trailing ',' if there are features to list */
+			if (sensors_get_features(name, &a) != NULL) {
+				printf(",");
+			}
+		} else {
 			fprintf(stderr, "Can't get adapter name\n");
+		}
 	}
 	print_chip_json(name);
-	printf("   }");
+	printf("}");
 }
 
 /* returns 1 on error */
@@ -220,7 +228,7 @@ static int do_the_real_work(const sensors_chip_name *match, int *err)
 	int cnt = 0;
 
 	if (do_json)
-		printf("{\n");
+		printf("{");
 	chip_nr = 0;
 	while ((chip = sensors_get_detected_chips(match, &chip_nr))) {
 		if (do_sets) {
@@ -229,7 +237,7 @@ static int do_the_real_work(const sensors_chip_name *match, int *err)
 		} else {
 			if (do_json) {
 				if (cnt > 0)
-					printf(",\n");
+					printf(",");
 				do_a_json_print(chip);
 			} else {
 				do_a_print(chip);
@@ -238,7 +246,7 @@ static int do_the_real_work(const sensors_chip_name *match, int *err)
 		cnt++;
 	}
 	if (do_json)
-		printf("\n}\n");
+		printf("}\n");
 	return cnt;
 }
 
@@ -270,7 +278,7 @@ static void print_bus_list(void)
 
 int main(int argc, char *argv[])
 {
-	int c, i, err, do_bus_list;
+	int c, i, err, do_bus_list, allow_no_sensors;
 	const char *config_file_name = NULL;
 
 	struct option long_opts[] =  {
@@ -281,6 +289,7 @@ int main(int argc, char *argv[])
 		{ "no-adapter", no_argument, NULL, 'A' },
 		{ "config-file", required_argument, NULL, 'c' },
 		{ "bus-list", no_argument, NULL, 'B' },
+		{ "allow-no-sensors", no_argument, NULL, 'n' },
 		{ 0, 0, 0, 0 }
 	};
 
@@ -288,11 +297,13 @@ int main(int argc, char *argv[])
 
 	do_raw = 0;
 	do_json = 0;
+	new_json = 0;
 	do_sets = 0;
 	do_bus_list = 0;
 	hide_adapter = 0;
+	allow_no_sensors = 0;
 	while (1) {
-		c = getopt_long(argc, argv, "hsvfAc:uj", long_opts, NULL);
+		c = getopt_long(argc, argv, "hsvfAc:ujJn", long_opts, NULL);
 		if (c == EOF)
 			break;
 		switch(c) {
@@ -324,8 +335,15 @@ int main(int argc, char *argv[])
 		case 'j':
 			do_json = 1;
 			break;
+		case 'J':
+			do_json = 1;
+			new_json = 1;
+			break;
 		case 'B':
 			do_bus_list = 1;
+			break;
+		case 'n':
+			allow_no_sensors = 1;
 			break;
 		default:
 			fprintf(stderr,
@@ -349,7 +367,9 @@ int main(int argc, char *argv[])
 				"No sensors found!\n"
 				"Make sure you loaded all the kernel drivers you need.\n"
 				"Try sensors-detect to find out which these are.\n");
-			err = 1;
+			if (!allow_no_sensors) {
+				err = 1;
+			}
 		}
 	} else {
 		int cnt = 0;

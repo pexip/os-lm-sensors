@@ -9,6 +9,27 @@ Documentation=man:fancontrol(8) man:pwmconfig(8)
 ExecStartPre=/usr/sbin/fancontrol --check
 ExecStart=/usr/sbin/fancontrol
 PIDFile=/run/fancontrol.pid
+Restart=on-failure
+
+# Hardening options
+AmbientCapabilities=
+CapabilityBoundingSet=
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+NoNewPrivileges=yes
+PrivateDevices=yes
+PrivateNetwork=yes
+PrivateTmp=yes
+ProtectControlGroups=yes
+ProtectHome=yes
+ProtectHostname=true
+ProtectKernelLogs=true
+ProtectKernelModules=yes
+ProtectSystem=strict
+ReadWritePaths=/run
+RestrictNamespaces=yes
+RestrictRealtime=yes
+SystemCallFilter=
 
 [Install]
 WantedBy=multi-user.target

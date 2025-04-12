@@ -1,0 +1,41 @@
+From b7b10c0065a4931f6285a132c14c7b98856ba9cd Mon Sep 17 00:00:00 2001
+From: Aurelien Jarno <aurel32@debian.org>
+Date: Sun, 6 Feb 2011 14:46:28 +0100
+Subject: [PATCH] sensors-detect: Recognize more chips
+
+References: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=588355
+
+ADT7466 -> lm85
+SCH5524-NS -> none
+---
+ prog/detect/sensors-detect | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/prog/detect/sensors-detect b/prog/detect/sensors-detect
+index f5b0705a..2cd6978d 100755
+--- a/prog/detect/sensors-detect
++++ b/prog/detect/sensors-detect
+@@ -725,7 +725,7 @@ use vars qw(@i2c_adapter_names);
+ 		i2c_detect => sub { adt7467_detect(@_, 2); },
+ 	}, {
+ 		name => "Analog Devices ADT7466",
+-		driver => "to-be-written",
++		driver => "lm85",
+ 		i2c_addrs => [0x4c],
+ 		i2c_detect => sub { adt7467_detect(@_, 3); },
+ 	}, {
+@@ -2101,6 +2101,11 @@ use constant FEAT_SMBUS	=> (1 << 7);
+ 		# No datasheet
+ 		driver => "not-a-sensor",
+ 		devid => 0x83,
++	}, {
++		name => "SMSC SCH5524-NS Super IO",
++		# No datasheet
++		driver => "not-a-sensor",
++		devid => 0x8d,
+ 	}, {
+ 		name => "SMSC SCH5627 Super IO",
+ 		driver => "sch5627",
+-- 
+2.47.2
+

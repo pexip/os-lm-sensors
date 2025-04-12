@@ -9,14 +9,14 @@ README.Debian for lm-sensors
 
 
 * What can a sensor chip do?
-  
+
   Sensor chip usually have a few voltage inputs, usually within the 0 to
   5V range.  The inputs are usually in series with voltage dividers
-  which lower the +/- 12V and +/-5V supplies to measurable range.  
-  Therefore, the readings for such inputs need to be re-scaled 
+  which lower the +/- 12V and +/-5V supplies to measurable range.
+  Therefore, the readings for such inputs need to be re-scaled
   appropriately by software.
 
-  Most chips also have a few remote temperature sensors, as well as fan 
+  Most chips also have a few remote temperature sensors, as well as fan
   speed monitoring inputs.
 
 
@@ -33,9 +33,9 @@ README.Debian for lm-sensors
     su
     sensors-detect
 
-  Using first command you will become a root, second command will fire 
+  Using first command you will become a root, second command will fire
   the sensors-detect utility which will guide you through the detection
-  process.  
+  process.
 
   Once the modules are correctly loaded, you can run the "sensors"
   command to get some chip data.
@@ -43,7 +43,7 @@ README.Debian for lm-sensors
 
 * The labels for the voltage and temperature readings in "sensors" are
   incorrect!
-  
+
   Every motherboard is different, the inputs can be connected in
   various way.  You can use the configuration file to describe how
   this measurement should be interpreted; see the comments the example
@@ -64,23 +64,23 @@ README.Debian for lm-sensors
   "/etc/sensors.conf" to hide them.
 
   Another possibility is that these lines are used to monitor different
-  voltages.  Only the motherboard manufacturer can tell for sure.  
-  Taking a look at what voltage values the BIOS displays may provide 
+  voltages.  Only the motherboard manufacturer can tell for sure.
+  Taking a look at what voltage values the BIOS displays may provide
   valuable hints though.
 
 
 * The temperatures are wrong
 
   If the temperature is -48°C, the corresponding input is not connected,
-  check your /etc/sensors3.conf and find section, use "ignore tempX" 
+  check your /etc/sensors3.conf and find section, use "ignore tempX"
   statement to ignore this temperature source.
 
   If the temperature is negative, switching from diode input to
   thermistor may help.  Check your /etc/sensors3.conf and find section,
   use "set sensorX Y" statement to change the diode to thermistor.
 
-  If the temperature is too hot, switching from thermistor input to 
-  diode may help. Check your /etc/sensors3.conf and find section, use 
+  If the temperature is too hot, switching from thermistor input to
+  diode may help. Check your /etc/sensors3.conf and find section, use
   "set sensorX Y" statement to change the thermistor to diode.
 
 
@@ -101,7 +101,7 @@ README.Debian for lm-sensors
 * Fans sometimes/always read 0
 
   You may not have a fan with a tachometer output.  Fans with tachometer
-  outputs have at least 3 wires.  Fans with only 2 wires cannot, in 
+  outputs have at least 3 wires.  Fans with only 2 wires cannot, in
   general, report their speed.
 
   You may need to increase the "fan divisor".  For more details see the
@@ -123,4 +123,4 @@ README.Debian for lm-sensors
   Reading the registers clears the ALARMS, unless the current value is
   still out of range.
 
- -- Aurelien Jarno <aurel32@debian.org>  Tue, 25 May 2010 11:07:04 +0200 
+ -- Aurelien Jarno <aurel32@debian.org>  Tue, 25 May 2010 11:07:04 +0200

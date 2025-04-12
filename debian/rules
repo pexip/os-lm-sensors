@@ -1,5 +1,8 @@
 #!/usr/bin/make -f
 
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+export deb_systemdsleepdir = $(shell pkg-config --variable=systemdsleepdir systemd)
+
 %:
 	dh $@
 
@@ -15,7 +18,7 @@ MAKEARGS_ARCH = $(MAKEARGS_INDP) \
 		EXLDFLAGS="$(LDFLAGS)"
 
 override_dh_auto_clean:
-	dh_auto_clean -- $(MAKEARGS_ARCH)
+	make clean $(MAKEARGS_ARCH)
 
 # Ignore missing files on non-Linux. This package is Linux specific, and
 # is just minimally built on other OS to simplify porters work.
@@ -24,6 +27,10 @@ override_dh_missing:
 	dh_missing --list-missing
 endif
 
+# Sensors-detect works fine with perl-base
+override_dh_perl:
+	dh_perl -d
+
 #
 # Architecture independent targets
 #
@@ -31,8 +38,7 @@ override_dh_auto_build-indep:
 
 override_dh_auto_install-indep:
 	$(MAKE) install-etc install-prog-pwm $(MAKEARGS_INDP)
-	mkdir -p $(CURDIR)/debian/fancontrol/lib/systemd/system-sleep/
-	install -m 755 $(CURDIR)/debian/fancontrol-systemd-sleep $(CURDIR)/debian/fancontrol/lib/systemd/system-sleep/fancontrol
+	install -m 755 -D $(CURDIR)/debian/fancontrol-systemd-sleep $(CURDIR)/debian/fancontrol$(deb_systemdsleepdir)/fancontrol
 
 	# Make sure /etc/sensors.d/ is not removed
 	touch $(CURDIR)/debian/tmp/etc/sensors.d/.placeholder

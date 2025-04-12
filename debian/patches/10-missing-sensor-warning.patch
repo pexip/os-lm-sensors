@@ -1,0 +1,34 @@
+From fcf6fa2f147247f74aa7b5140e99097870d827a6 Mon Sep 17 00:00:00 2001
+From: Aurelien Jarno <aurelien@aurel32.net>
+Date: Sat, 12 Apr 2025 14:05:34 +0200
+Subject: [PATCH] Emit missing sensor warning only if SENSORS_SYSFS_ROOT is
+ defined
+
+The lm-sensors library is widely used in various software, which could
+be run in VMs where HWMON support may be absent (e.g. cloud kernels in
+Debian). To avoid a confusing "/sys: No sensors at /sys/class/hwmon" on
+the console or in the logs, only emit the message if the user specifies
+an alternative path through SENSORS_SYSFS_ROOT. This behavior mirrors
+what is done for the "Not a sysfs mount" message.
+
+Fixes: 89548dab2a617 ("Add SENSORS_SYSFS_ROOT environment support")
+---
+ lib/sysfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/sysfs.c b/lib/sysfs.c
+index 39644f11..33f20dd1 100644
+--- a/lib/sysfs.c
++++ b/lib/sysfs.c
+@@ -755,7 +755,7 @@ int sensors_init_sysfs(void)
+ 
+ 	snprintf(hwmon_path, length, "%s%s", sensors_sysfs_mount, hwmon_subdir);
+ 	result = !stat(hwmon_path, &statbuf) && ((statbuf.st_mode & S_IFMT) == S_IFDIR);
+-	if (!result)
++	if (sysfs_root_env && !result)
+ 		fprintf(stderr, "%s: No sensors at %s.\n", sensors_sysfs_mount, hwmon_path);
+ 
+ 	free(hwmon_path);
+-- 
+2.47.2
+

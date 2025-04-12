@@ -1,4 +1,5 @@
 libsensors.so.5 libsensors5 #MINVER#
+* Build-Depends-Package: libsensors-dev
  libsensors_version@Base 1:3.5.0
  sensors_cleanup@Base 1:3.5.0
  sensors_do_chip_sets@Base 1:3.5.0
@@ -9,7 +10,10 @@ libsensors.so.5 libsensors5 #MINVER#
  sensors_get_detected_chips@Base 1:3.5.0
  sensors_get_features@Base 1:3.5.0
  sensors_get_label@Base 1:3.5.0
+ sensors_get_quantity_name@Base 1:3.6.2
+ sensors_get_quantity_unit@Base 1:3.6.2
  sensors_get_subfeature@Base 1:3.5.0
+ sensors_get_subfeature_quantity@Base 1:3.6.2
  sensors_get_value@Base 1:3.5.0
  sensors_init@Base 1:3.5.0
  sensors_parse_chip_name@Base 1:3.5.0
@@ -18,3 +22,4 @@ libsensors.so.5 libsensors5 #MINVER#
  sensors_set_value@Base 1:3.5.0
  sensors_snprintf_chip_name@Base 1:3.5.0
  sensors_strerror@Base 1:3.5.0
+ sensors_temp_type_name@Base 1:3.6.2

@@ -1,0 +1,26 @@
+---
+include:
+  - https://salsa.debian.org/salsa-ci-team/pipeline/raw/master/recipes/debian.yml
+
+variables:
+  SALSA_CI_DISABLE_CROSSBUILD_ARM64: 0
+
+build arm64:
+  extends: .build-package-arm64
+  rules:
+    - if: $CI_PROJECT_ROOT_NAMESPACE  == "aurel32"
+    - when: manual
+      allow_failure: true
+
+build armhf:
+  extends: .build-package-armhf
+  rules:
+    - if: $CI_PROJECT_ROOT_NAMESPACE  == "aurel32"
+    - when: manual
+      allow_failure: true
+
+build riscv64:
+  extends: .build-package-riscv64
+  rules:
+    - when: manual
+      allow_failure: true
