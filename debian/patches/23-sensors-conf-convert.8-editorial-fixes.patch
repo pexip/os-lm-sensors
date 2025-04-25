@@ -1,0 +1,30 @@
+Forwarded: https://github.com/lm-sensors/lm-sensors/pull/484
+
+From b28df6c370f1081501399a3cea31277e2a3f0a1e Mon Sep 17 00:00:00 2001
+From: Aurelien Jarno <aurelien@aurel32.net>
+Date: Sun, 25 Feb 2024 17:27:42 +0100
+Subject: [PATCH 4/5] sensors-conf-convert.8: editorial fixes
+
+Submitted by Bjarni Ingi Gislason <bjarniig@simnet.is> via the Debian
+BTS, bug #1051117.
+---
+ etc/sensors-conf-convert.8 | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/etc/sensors-conf-convert.8 b/etc/sensors-conf-convert.8
+index 34f672e2..eb126aba 100644
+--- a/etc/sensors-conf-convert.8
++++ b/etc/sensors-conf-convert.8
+@@ -21,7 +21,8 @@ The old configuration file is read from the standard input and the
+ new one is written to the standard output.
+ 
+ .SH SEE ALSO
+-sensors(1), libsensors(3)
++.BR sensors (1),
++.BR libsensors (3)
+ 
+ .SH AUTHOR
+ Jean Delvare
+-- 
+2.42.0
+

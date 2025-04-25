@@ -1,11 +1,31 @@
 [Unit]
 Description=Initialize hardware monitoring sensors
+Documentation=man:sensors(1) man:sensors.conf(5)
 
 [Service]
 Type=oneshot
 RemainAfterExit=yes
 ExecStart=-/usr/bin/sensors -s
 ExecStart=-/usr/bin/sensors
+
+# Hardening options
+AmbientCapabilities=
+CapabilityBoundingSet=
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+NoNewPrivileges=yes
+PrivateDevices=yes
+PrivateNetwork=yes
+PrivateTmp=yes
+ProtectControlGroups=yes
+ProtectHome=yes
+ProtectHostname=true
+ProtectKernelLogs=true
+ProtectKernelModules=yes
+ProtectSystem=strict
+RestrictNamespaces=yes
+RestrictRealtime=yes
+SystemCallFilter=
 
 [Install]
 WantedBy=multi-user.target

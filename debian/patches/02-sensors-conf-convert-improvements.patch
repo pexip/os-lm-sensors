@@ -1,7 +1,15 @@
----
- etc/sensors-conf-convert |   17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+From 0be39ad911865cdb95b522ba90bf30cdde925585 Mon Sep 17 00:00:00 2001
+From: Aurelien Jarno <aurel32@debian.org>
+Date: Thu, 3 Jan 2008 11:11:02 +0100
+Subject: [PATCH] sensors-conf-convert: Convert voltage formulas correctly
 
+References: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=456774
+---
+ etc/sensors-conf-convert | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
+
+diff --git a/etc/sensors-conf-convert b/etc/sensors-conf-convert
+index dac398c6..e2ada620 100755
 --- a/etc/sensors-conf-convert
 +++ b/etc/sensors-conf-convert
 @@ -34,7 +34,7 @@
@@ -13,7 +21,7 @@
  
  BEGIN
  {
-@@ -480,3 +480,18 @@
+@@ -480,3 +480,17 @@ elsif (m/^[\s#]*(?:label|ignore|set|compute)\s+(\S+)\s/) {
  		$_ = substitute_line($chip, $_);
  	}
  }
@@ -31,4 +39,6 @@
 +} else {
 +	$compute_next = 0;
 +}
-+
+-- 
+2.47.2
+

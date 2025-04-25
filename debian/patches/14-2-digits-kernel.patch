@@ -1,10 +1,18 @@
+From 71fb47f1b5a304bc6eb901792f2a69a9bf1db467 Mon Sep 17 00:00:00 2001
+From: Micah Gersten <micahg@ubuntu.com>
+Date: Mon, 13 Jun 2011 23:03:46 -0500
+Subject: [PATCH] sensors-detect: Recognize 2 digit kernel version
+
+References: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=630508
 ---
- prog/detect/sensors-detect |    4 ++--
+ prog/detect/sensors-detect | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/prog/detect/sensors-detect b/prog/detect/sensors-detect
+index 2cd6978d..b37104ca 100755
 --- a/prog/detect/sensors-detect
 +++ b/prog/detect/sensors-detect
-@@ -2679,8 +2679,8 @@
+@@ -3100,8 +3100,8 @@ use vars qw($kernel_version @kernel_version $kernel_arch);
  sub initialize_kernel_version
  {
  	chomp($kernel_version = `uname -r`);
@@ -15,3 +23,6 @@
  	chomp($kernel_arch = `uname -m`);
  
  	# We only support kernels >= 2.6.5
+-- 
+2.47.2
+

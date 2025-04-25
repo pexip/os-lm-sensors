@@ -2,7 +2,9 @@
 
 case "$1" in
   post)
-    /bin/systemctl restart fancontrol.service
+    if /bin/systemctl --quiet is-active fancontrol.service; then
+      /bin/systemctl restart fancontrol.service
+    fi
     exit 0
     ;;
 esac
