@@ -38,7 +38,7 @@ foreach ('/usr/sbin', '/usr/local/sbin', '/sbin') {
 #########################
 
 use constant NO_CACHE => 1;
-use constant LM_VERSION => '3.6.0';
+use constant LM_VERSION => '3.6.2';
 use vars qw(@pci_adapters @chip_ids @ipmi_ifs @non_hwmon_chip_ids
 	    $i2c_addresses_to_scan @i2c_byte_cache %opt);
 
@@ -719,11 +719,6 @@ use vars qw(@i2c_adapter_names);
 		i2c_addrs => [0x2c..0x2e],
 		i2c_detect => sub { emc6w201_detect(@_); },
 	}, {
-		name => "Winbond WPCD377I",
-		driver => "not-a-sensor",
-		i2c_addrs => [0x2c..0x2e],
-		i2c_detect => sub { lm85_detect(@_, 7); },
-	}, {
 		name => "Analog Devices ADT7462",
 		driver => "adt7462",
 		i2c_addrs => [0x5c, 0x58],
@@ -1392,6 +1387,11 @@ use vars qw(@i2c_adapter_names);
 		i2c_addrs => [0x73],
 		i2c_detect => sub { fsc_detect(@_, 7); },
 	}, {
+		name => "FTS Teutates",
+		driver => "ftsteutates",
+		i2c_addrs => [0x73],
+		i2c_detect => sub { fts_detect(@_); },
+	}, {
 		name => "ALi M5879",
 		driver => "to-be-written",
 		i2c_addrs => [0x2c..0x2d],
@@ -1678,6 +1678,10 @@ use vars qw(@i2c_adapter_names);
 		name => "Winbond W83791SD",
 		i2c_addrs => [0x2c..0x2f],
 		i2c_detect => sub { w83791sd_detect(@_); },
+	}, {
+		name => "Winbond WPCD377I",
+		i2c_addrs => [0x2c..0x2e],
+		i2c_detect => sub { lm85_detect(@_, 7); },
 	}, {
 		name => "Fintek F75111R/RG/N (GPIO)",
 		i2c_addrs => [0x37, 0x4e],
@@ -2268,7 +2272,7 @@ use constant FEAT_SMBUS	=> (1 << 7);
 		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
 	}, {
 		name => "Nuvoton W83677HG-I (NCT5572D/NCT6771F/NCT6772F/NCT6775F) Super IO Sensors",
-		driver => "w83627ehf",
+		driver => sub { kernel_version_at_least(3, 10, 0) ? "nct6775" : "w83627ehf" },
 		devid => 0xB470,
 		devid_mask => 0xFFF0,
 		logdev => 0x0b,
@@ -2281,6 +2285,13 @@ use constant FEAT_SMBUS	=> (1 << 7);
 		name => "Nuvoton NCT6683D eSIO",
 		driver => "nct6683",
 		devid => 0xC730,
+		devid_mask => 0xFFF0,
+		logdev => 0x0b,
+		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
+	}, {
+		name => "Nuvoton NCT6687D eSIO",
+		driver => "nct6683",
+		devid => 0xD590,
 		devid_mask => 0xFFF0,
 		logdev => 0x0b,
 		features => FEAT_IN | FEAT_FAN | FEAT_TEMP,
@@ -2806,6 +2817,10 @@ use vars qw(@cpu_ids);
 		name => "Hygon Family 18h thermal sensors",
 		driver => "k10temp",
 		detect => sub { hygon_pci_detect('1463') },
+	}, {
+		name => "AMD Family 19h thermal sensors",
+		driver => "k10temp",
+		detect => sub { amd_pci_detect('1653') },
 	}, {
 		name => "Intel digital thermal sensor",
 		driver => "coretemp",
@@ -4569,7 +4584,9 @@ sub scan_cpu
 sub chip_special_cases
 {
 	# Some chip to driver mappings depend on the environment
-	foreach my $chip (@chip_ids) {
+	foreach my $chip (@chip_ids, @superio_ids_natsemi, @superio_ids_smsc,
+			  @superio_ids_smsc_ns, @superio_ids_winbond,
+			  @superio_ids_ite) {
 		if (ref($chip->{driver}) eq 'CODE') {
 			$chip->{driver} = $chip->{driver}->();
 		}
@@ -6360,6 +6377,33 @@ sub fsc_detect
 	return if $chip == 5 and $id ne 'HRC';	# Heracles
 	return if $chip == 6 and $id ne 'HDS';	# Hades
 	return if $chip == 7 and $id ne 'SYL';	# Syleus
+
+	return 8;
+}
+
+# Chip to detect: FTS Teutates
+# Registers used:
+#   0x00: Device ID
+#   0x01: Revision
+#   0x0C: Device Detection Register 1
+#   0x0D: Device Detection Register 2
+#   0x0E: Device Detection Register 3
+sub fts_detect
+{
+	my ($file) = @_;
+
+	# Device ID must be 0x11
+	# 0x10 == Baseboard Management Controller
+	# 0x01 == Teutates
+	return unless i2c_smbus_read_byte_data($file, 0x00) == 0x11;
+
+	# Revision must be greater or equal 0x2b to use device detection
+	return unless i2c_smbus_read_byte_data($file, 0x01) >= 0x2b;
+
+	# Device Detection Registers must be 0x17, 0x34, 0x54
+	return unless i2c_smbus_read_byte_data($file, 0x0C) == 0x17
+	          and i2c_smbus_read_byte_data($file, 0x0D) == 0x34
+	          and i2c_smbus_read_byte_data($file, 0x0E) == 0x54;
 
 	return 8;
 }
